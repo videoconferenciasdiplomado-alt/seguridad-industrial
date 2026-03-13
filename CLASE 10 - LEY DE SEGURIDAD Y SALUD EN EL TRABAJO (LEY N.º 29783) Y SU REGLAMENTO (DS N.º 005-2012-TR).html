@@ -1,0 +1,1559 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Introducción y presentación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Presentación del expositor y objetivo del curso</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Magíster Esteban Hermosa Álvarez se presenta y resume su experiencia en minas y administración: Ha trabajado en Arcata, Comarsa, Orión y otras plantas; invitado por Dumin a dictar el curso. Duración prevista: ~2 horas y cuarto; intención de usar ejemplos y películas (problemas técnicos impidieron algunas).</div>
+                  <div class="content-text">Objetivos de la sesión: Conocer principios legales que regulan seguridad y salud en el trabajo. Conocer requisitos de la legislación peruana y su reglamento. Uso de resúmenes y casuística para resolver dudas.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=721" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:12:01)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Despedida y próximos temas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Agradecimientos y cierre de la clase: Profesor felicita a participantes por asistencia y participación en sesión larga.</div>
+                  <div class="content-text">Anuncio de próximos temas y recursos: Próxima reunión: ISO 18001 y su relación con la normativa local; material complementario y películas se compartirán y se resolverán consultas por WhatsApp si es necesario.</div>
+                  <div class="content-text">Invitación a consultas posteriores: Disponibilidad del expositor para ampliar contenidos y responder dudas fuera de clase.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=7813" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:10:13)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Definiciones básicas y conceptos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Accidentes, incidentes y peligros</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición de accidente de trabajo: suceso repentino ligado al trabajo que causa lesión, invalidez o muerte: Incluye actos bajo órdenes del empleador aun fuera de lugar y horas de trabajo.</div>
+                  <div class="content-text">Incidente e incidente peligroso: Incidente: suceso en el trabajo sin lesiones o que requiere primeros auxilios. Incidente peligroso: suceso con potencial de causar daño; ejemplo recurrente: una piedra en la carretera.</div>
+                  <div class="content-text">Peligro y riesgo: Peligro: característica capaz de causar daño a personas, equipos o procesos. Riesgo: probabilidad de que un peligro se materialice; ejemplo: caída de arenitas en interior de mina.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=888" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:14:48)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Condiciones de trabajo, salud y emergencia</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Condiciones y medio ambiente de trabajo afectan salud física y psicosocial: Ejemplos: sedentarismo en aulas, turnos extensos en minería (20 días) y estrés por separación familiar.</div>
+                  <div class="content-text">Enfermedad profesional u ocupacional: Enfermedad contraída por exposición a factores de riesgo; ejemplo: silicosis en minería.</div>
+                  <div class="content-text">Emergencia: Evento grave por agentes naturales o procesos peligrosos que requiere respuesta inmediata.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=1079" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:17:59)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Gestión de la seguridad y sistema de trabajo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Control de riesgos, identificación y evaluación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Identificación de peligros y elaboración del HIPER (historia de peligros): HIPER sirve para listar peligros, su contexto y medir su evolución; la identificación debe ser continua porque los peligros cambian con las actividades.</div>
+                  <div class="content-text">Evaluación de riesgos posterior a la identificación: Valorar grado de riesgo, priorizar medidas preventivas y asegurar que las fichas sean concretas, medibles y sin ambigüedades.</div>
+                  <div class="content-text">Mejora continua y ciclo Kaizen aplicado a seguridad: Origen en Japón; ejemplo de mejora continua en fabricación para prevenir defectos.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=1385" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:23:05)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Sistema de gestión de seguridad y salud en el trabajo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición: conjunto de elementos interrelacionados para establecer políticas, objetivos y procesos: Persigue prevención de lesiones y enfermedades, promoción de salud integrada con producción y control de costos.</div>
+                  <div class="content-text">Componentes clave del sistema: Políticas, planes, programas y recursos proporcionados por el empleador. Participación y consulta de trabajadores y sindicatos. Integración con otros sistemas de gestión y búsqueda de normas ISO aplicables.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=1511" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:25:11)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Comités, responsabilidades, políticas internas, marco legal y alcance de la ley</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Marco legal y alcance de la ley</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ley 29783 promueve cultura de prevención y obligaciones del Estado, empleadores, sindicatos y trabajadores: Ámbito de aplicación: todos los sectores económicos, público y privado, incluyendo micro y pequeñas empresas.</div>
+                  <div class="content-text">Organización del Sistema Nacional de Seguridad y Salud en el Trabajo: Define funciones y responsabilidades para evaluar e incluir modificaciones normativas y organizacionales.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=1791" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:29:51)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Comités, responsabilidades y políticas internas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Comité de Seguridad y Salud en el Trabajo: Obligatorio desde 20 trabajadores; menos de 20 se designa persona responsable capacitada. Constituido por mínimo 4 y máximo 12 miembros; se añade 1 por cada 100 trabajadores hasta 12.</div>
+                  <div class="content-text">Principios de la ley relevantes: Responsabilidad, prevención, protección, compensación, primacía de la realidad, gestión integral, información y consulta. Primacía de la realidad: priorizar hechos reales que generan riesgo (ejemplo: riel de puerta corrediza al ras del suelo).</div>
+                  <div class="content-text">Funciones y organización del comité: Aprobar reglamento interno y programación anual; revisar documentos e informes sobre condiciones de trabajo. Promover formación, aprobar programa anual de capacitación, realizar inspecciones periódicas y participar en investigaciones de incidentes. Mantener libro de actas obligatorio y reportar a la máxima autoridad de la empresa en casos graves.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=1414" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:23:34)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Obligaciones específicas del empleador, comunicación, investigación y contratistas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Obligaciones específicas del empleador</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Implementar y organizar el sistema de gestión de seguridad y salud en el trabajo: Garantizar constitución del comité, participación y consulta de trabajadores, y formación/capacitación en puesto.</div>
+                  <div class="content-text">Identificar peligros, evaluar y gestionar riesgos, y considerar factores especiales: Atender a mujeres gestantes, personal con discapacidad y medidas antropométricas (lactarios, accesos adaptados).</div>
+                  <div class="content-text">Proveer EPP adecuados y supervisar calidad de los mismos: Seleccionar EPP según riesgo (químicos, ruido, golpes, humedad) y vigilar que no sean de mala calidad; médico ocupacional debe participar en selección.</div>
+                  <div class="content-text">Realizar exámenes médicos ocupacionales iniciales, periódicos y de salida: Informar resultados; adecuados según función y detectar enfermedades profesionales; examen confidencial pero obligatorio.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=2431" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:40:31)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Comunicación, investigación y contratistas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Establecer procesos de comunicación interna y externa: Canales: buzón de sugerencias, recursos humanos, sindicatos; difusión de normas y novedades.</div>
+                  <div class="content-text">Investigar daños o indicios de fallas para mejora continua y mantenimiento preventivo: Investigar accidentes y fallas de maquinaria; programar mantenimientos para prevenir riesgos.</div>
+                  <div class="content-text">Velar por seguridad de contratistas y subcontratistas: Empresa titular comparte responsabilidad y sanciones si ocurre un accidente en contratistas; debe supervisar condiciones y exigir cumplimiento normativo.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=2693" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:44:53)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Riesgos operacionales y ejemplos prácticos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Riesgos en minería y medidas preventivas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ejemplos operativos de riesgo y respuesta: Tormenta eléctrica en tajo abierto: paralización de labores, resguardo en suelo con casco y poncho para evitar rayos y granizo. Control de disparos en mina: esperar disipación, aplicar riego con agua y ventilar en interior para evitar polvo y silicosis.</div>
+                  <div class="content-text">Presión de producción vs seguridad: Priorizar medidas de control aun si afecta productividad; definir instrucciones para interrumpir o abandonar tareas cuando exista riesgo intolerable.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=3361" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:56:01)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Ergonomía, trabajos monótonos y rotación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Diseño de puestos y métodos para reducir riesgo ergonómico: Alternación de tareas, rotación y pausas activas para trabajos repetitivos y visuales.</div>
+                  <div class="content-text">Ejemplos de afecciones por tipo de tarea: Oficina: varices, dolores lumbares y riesgo cardíaco por sedentarismo; necesidad de asientos ergonómicos y pausas activas. Operarios repetitivos: vibraciones, lesiones músculo-esqueléticas y fatiga visual; limitar exposiciones (ej. vibradoras) y programar descansos.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=2977" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:49:37)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Derechos y obligaciones de los trabajadores</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Derechos de los trabajadores</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Derecho a la comunicación libre y sin represalias: Comunicarse con inspectores (SUNAFIL, municipalidad, Ministerio de Trabajo) y expresar inquietudes sin presencia del empleador ni temor a hostilidad.</div>
+                  <div class="content-text">Acceso a la información y documentación del SG-SST: Derecho a consultar registros y resultados de evaluaciones salvo información sensible de salud individual; documentación debe ser pública y visible.</div>
+                  <div class="content-text">Participación en identificación de peligros y evaluación de riesgos: Participación directa, vía comité o sindicato; exigir que los IPER/hiper sean completos y reales para que se implemente cumplimiento.</div>
+                  <div class="content-text">Protección contra medidas coercitivas por accidentes o enfermedades laborales: No pueden disminuir remuneración ni categoría por enfermedad profesional o accidente de trabajo; traslado debe ser a puesto de igual nivel y categoría.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=3602" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:00:02)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Obligaciones de los trabajadores</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Cumplir reglamentos y participar en capacitaciones y entrenamientos: Las capacitaciones deben ser dentro de horas laborales; empresa debe facilitar transporte o traer instructores si es fuera de centro.</div>
+                  <div class="content-text">Usar y cuidar adecuadamente instrumentos, equipos y EPP: No manipular maquinarias sin autorización escrita; incumplimiento puede llevar a sanciones, pago por daños o despido.</div>
+                  <div class="content-text">Participar en investigación de accidentes y someterse a exámenes médicos: Obligación de asistir a exámenes médicos ocupacionales; acudir a primeros auxilios y reportar incidentes con veracidad a autoridades.</div>
+                  <div class="content-text">Comunicar inmediatamente actos inseguros e incidencias: Reportar a delegados o representantes de seguridad; notificar cualquier situación que ponga en riesgo al trabajador o terceros.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=4366" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:12:46)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Casos, sanciones y cultura preventiva</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Importancia de la documentación y sanciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Documentos como prueba y obligación de transparencia: Informes e IPER deben ser reales y públicos; ocultar incidentes conlleva sanciones y riesgo de cierre de operaciones.</div>
+                  <div class="content-text">Plazos de reporte a autoridades: Accidente grave: informar en 24 horas por Internet; accidente leve: informar en una semana.</div>
+                  <div class="content-text">Consecuencias de incumplimiento: Multas, paralización de producción y responsabilidades penales en accidentes mortales (ejemplo: accidente en Arequipa por cortocircuito que causó decenas de muertes). Responsabilidad penal de gerentes o responsables: penas de prisión de 5 a 8 años en casos de accidentes continuos que causen muerte o grave peligro.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=5306" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:28:26)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Cultura preventiva y políticas internas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Políticas claras y objetivos medibles: Políticas como cero tolerancia al alcohol en minería; objetivos y metas deben ser específicos, medibles y apropiados.</div>
+                  <div class="content-text">Medidas preventivas en mina: Ventilación, control de polvo, limitación de edad por exposición a riesgo de silicosis y protocolos de control de disparos.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=6852" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:54:12)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Conformación, elección y funcionamiento del comité</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Constitución del comité y requisitos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Número de miembros y elección: Mínimo 4 y máximo 12 miembros; se eligen titulares y suplentes mediante votación secreta; convocatoria corresponde al empleador.</div>
+                  <div class="content-text">Requisitos para ser integrante: Ser trabajador, mayor de 18 años y preferentemente con capacitación en seguridad; vacancias se cubren por suplentes o nueva elección.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=5671" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:34:31)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Actividades y duración</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Duración de cargos y causas de vacancia: Plazos de 1 a 2 años; asistencia injustificada a tres sesiones consecutivas, enfermedad o extinción del vínculo laboral extinguen la función.</div>
+                  <div class="content-text">Actividades del comité: Realizar inspecciones periódicas, analizar estadísticas, aprobar reglamentos, programaciones anuales y plan anual de capacitación; llevar libro de actas y reportar incidentes a la autoridad correspondiente.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=5763" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:36:03)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Organización y funciones del servicio de seguridad y salud</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Funciones del servicio de seguridad y salud en el trabajo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Participar en desarrollo de programas y evaluación de equipos nuevos: Evaluar impacto en salud de equipos (vibración, ruido) y limitar tiempos de exposición.</div>
+                  <div class="content-text">Asesoramiento en seguridad, higiene y ergonomía: Médicos y técnicos deben participar en compra de EPP y en adaptación del trabajo al trabajador; fomentar rehabilitación profesional y atención a mujeres lactantes o cesareadas.</div>
+                  <div class="content-text">Organización de primeros auxilios y atención de urgencia: Coordinar servicios médicos, formación en primeros auxilios y protocolos de evacuación.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=6121" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:42:01)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Requisitos y registros obligatorios</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Programa anual de seguridad y salud en el trabajo: Planificación de actividades preventivas, capacitación y monitoreo de agentes físicos, químicos, biológicos y psicosociales.</div>
+                  <div class="content-text">Registros obligatorios: Registros de accidentes, exámenes médicos, monitoreo de agentes, inspecciones internas y estadísticas de salud en el trabajo. Conservación y custodia de registros por periodos legales; registros útiles en demandas, investigaciones médicas y para demostrar cumplimiento.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=7091" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:58:11)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Psicología laboral, pausas activas y rehabilitación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Riesgos psicosociales y pausas activas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Impacto del estado emocional en la seguridad: Problemas personales pueden aumentar probabilidad de accidentes; promover separación de preocupaciones personales durante la jornada. Caso práctico: trabajador con conflictos domésticos sufrió múltiples accidentes menores hasta que se identificó el problema mediante entrevistas sociales.</div>
+                  <div class="content-text">Pausas activas y ejercicios preventivos: Implementar pausas activas para reducir fatiga y riesgos musculoesqueléticos; adaptar frecuencia según tarea y exposición.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=7120" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:58:40)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Rehabilitación y adaptación del trabajo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Rehabilitación profesional y adaptación del puesto: Facilitar reinserción sin pérdida de categoría; adaptar tareas al trabajador y proporcionar equipos o ayudas técnicas.</div>
+                  <div class="content-text">Protección de trabajadores vulnerables: Atención a lactantes, condiciones postoperatorias y limitaciones físicas mediante programas médicos y de reincorporación.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=6483" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:48:03)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Registros, planificación y relaciones comunitarias</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Importancia de registros y conservación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Registros de accidentes, capacitaciones y auditorías como herramienta de control y evidencia: Mantener registros de incidentes peligrosos, inducción, entrenamiento y auditorías; conservación obligatoria según plazos legales. Registros de accidentes y enfermedades ocupacionales son requeridos por médicos y autoridades para diagnósticos, demandas o acciones legales.</div>
+                  <div class="content-text">Ejemplos sobre custodia de documentos: Recursos Humanos conserva historiales; algunos documentos pueden eliminarse tras plazos (ej. cinco años) según normativa, pero registros sanitarios y de accidentes requieren preservación más amplia cuando hay implicancia de enfermedades profesionales.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=7201" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:00:01)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Planificación, comunicación de emergencias y relaciones comunitarias</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Planificación y coordinación de información ante emergencias: Empleador debe garantizar medios de comunicación interna y coordinar con autoridades, servicios de intervención y vecinos en situaciones de emergencia. Señalización de zonas de emergencia y activación de alarmas para evacuación en disparos o liberación de gases.</div>
+                  <div class="content-text">Casos prácticos de comunicación y consecuencias: Ejemplo: falla en mantenimiento al colocar candado en válvula de alivio provocó acumulación de gas, explosión de compresora, hospitalizaciones y contaminación de vecinos. Importancia de notificar a la comunidad y autoridades para atención médica, evacuación y mitigación de daños.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=7531" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:05:31)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.3</span>
+                  <span class="subsection-title">Enfermedades ocupacionales y trazabilidad laboral</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Relación entre historial laboral y enfermedades graves: Médicos investigan lugares de trabajo previos para atribuir enfermedades (ej. cáncer, plumbemia) a exposiciones laborales. Conservación de registros y certificados médicos facilita pruebas en demandas y tratamiento de enfermedades profesionales.</div>
+                  <div class="content-text">Ejemplo de contaminación en zonas mineras: Cerro de Pasco como caso extremo de contaminación por plomo con efectos en adultos y niños; sanciones administrativas a empresas por contaminación comprobada.</div>
+                  <a href="https://www.youtube.com/watch?v=RmkiugDkR0Q&start=7428" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:03:48)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "SEGURIDAD INDUSTRIAL".toUpperCase();
+      const TITULO_CLASE = "CLASE 10: LEY DE SEGURIDAD Y SALUD EN EL TRABAJO (LEY N.º 29783) Y SU REGLAMENTO (DS N.º 005-2012-TR)".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

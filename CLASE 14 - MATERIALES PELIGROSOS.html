@@ -1,0 +1,1534 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Introducción y objetivo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Presentación del tema y propósito</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Anuncio de la clase centrada en materiales peligrosos: Se intentó proyectar una película introductoria para contextualizar el tema. Objetivo: comprender manejo, identificación y riesgos de materiales peligrosos. Enfatiza que la ISO 45001 (y normas previas) unifica capacitación, simbología y recursos a nivel internacional. Ventaja para trabajadores que viajan o postulan al extranjero: lenguaje y requisitos comunes.</div>
+                  <div class="content-text">Importancia práctica a nivel doméstico e industrial: Muchos peligros están también en el hogar (lejía, thinner, alcohol, agua oxigenada, detergentes). Relación entre teoría y aplicación diaria; aplicar normas y procedimientos en vida cotidiana. Nota sobre alcance del curso: es un resumen condensado de temas que suelen impartirse en mayor profundidad en cursos técnicos y seminarios.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=204" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:03:24)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Mensajes clave y conducta esperada</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Estamos constantemente rodeados de materiales peligrosos en casa y trabajo; identificar, clasificar y aplicar controles reduce riesgos.</div>
+                  <div class="content-text">Actuar con prevención: usar EPP adecuado, mantener orden y aseo, almacenar correctamente, separar incompatibles y conocer procedimientos de emergencia.</div>
+                  <div class="content-text">Formación continua, uso de normas internacionales (ISO 45001, SGA) y práctica de simulacros mejoran la capacidad de respuesta en incidentes.</div>
+                  <div class="content-text">Agradecimiento y cierre de la clase, con invitación a revisar material audiovisual y próximas sesiones para profundizar temas técnicos.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=6965" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:56:05)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Casos prácticos, recursos audiovisuales e identificación y clasificación de materiales peligrosos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Películas, ejemplos domésticos e industriales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Uso de videos de diferentes países como material didáctico: Clips de Colombia, México, Chile para mostrar prácticas y normas compartidas. Selección de material audiovisual para reforzar conceptos técnicos y procedimientos de respuesta.</div>
+                  <div class="content-text">Ejemplos y casos reales: Derrame de petróleo en litoral con meses de impacto; uso de esponjas y materiales biológicos para biodegradación. Accidentes por rotura de tanques de gas que provocaron incendios y víctimas; importancia de escuchar información oficial y seguir instrucciones.</div>
+                  <div class="content-text">Kits antiderrames y procedimientos prácticos: Componentes: absorbentes, barreras, guantes, bolsas para residuos peligrosos. Pasos: evaluar el derrame; colocar barreras; aplicar absorbentes; recoger y desechar absorbentes; limpiar y desinfectar; reabastecer y capacitar al personal. Uso correcto del kit: contener y controlar líquidos peligrosos para prevenir propagación y daños ambientales.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=269" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:04:29)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Fuentes de información y sistemas de clasificación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Hoja de datos de seguridad (FDS / MSD) como documento principal: Proporcionada por el proveedor; contiene instrucciones de manejo, riesgos y números de teléfono de respuesta. Debe estar disponible en puestos de trabajo, oficinas y almacenes; usar documento de embarque para transporte.</div>
+                  <div class="content-text">Sistemas de clasificación citados: ONU: nueve clases (explosivos, gases, líquidos inflamables, sólidos inflamables, oxidantes, tóxicos, radioactivos, corrosivos, misceláneos). NFPA 704: rombo para salud, inflamabilidad, reactividad y riesgos específicos. Sistema Globalmente Armonizado (SGA) y manuales como el libro naranja de la ONU para rotulado y guías de respuesta. Diamante MDSPTA 704 y otros rombos indican salud, inflamabilidad, inestabilidad y riesgos especiales. Etiqueta requiere identificación del producto, proveedor, pictograma, indicación de peligro, palabra de advertencia y consejos de prudencia.</div>
+                  <div class="content-text">Importancia del rotulado en ingreso de productos: Productos sin rotulación (importaciones irregulares) representan exposición por desconocimiento de peligros. Rotular desde la compra permite tomar precauciones básicas en talleres, mecánicas y pequeñas empresas.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=304" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:05:04)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Manejo, almacenamiento y medidas preventivas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Buenas prácticas operativas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Procedimientos antes y durante la manipulación: Leer resumen/hoja de seguridad; usar EPP adecuado; seguir instrucciones específicas. Mantener recipientes tapados, evitar derrames, usar embudos/dosificantes y revisar equipos de emergencia.</div>
+                  <div class="content-text">Almacenamiento y ordenación: Cerrar y etiquetar correctamente envases; ordenar según clasificación ONU y matriz de compatibilidad. Mantener limpieza del área y disponer FDS junto a los materiales. Separar materiales incompatibles; almacenar en lugares secos, frescos y ventilados.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=381" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:06:21)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Residuos, compatibilidad y transporte</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Matriz de compatibilidad para transporte y almacenamiento: Indica qué clases no almacenar juntas; protege salud, compañeros y medio ambiente. En transporte verificar documento de embarque y número telefónico de respuesta; si no está, llamar al número de emergencia.</div>
+                  <div class="content-text">Gestión de residuos y envases impregnados: Desechar trapos y envases en recipientes designados (ej. contenedor rojo); etiquetar residuos peligrosos. Envases primarios, secundarios y terciarios: funciones y ejemplos; envases retornables y no retornables. Fecha de vencimiento del envase plástico puede influir en seguridad del contenido; desechar envases vencidos.</div>
+                  <div class="content-text">Transporte y riesgos asociados: Evitar fuentes de ignición al trasladar; ubicar zonas de control y rutas de evacuación; proteger contra incendios, caídas y atropellos. Importancia del transporte: las materias peligrosas no son estáticas, por lo que rotulado y documentación correctos deben acompañar al producto en todo momento.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=440" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:07:20)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">MAPEL: Identificación, respuesta y control</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Concepto y pasos de intervención</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición de MAPEL y objetivos del nivel de advertencia: MAPEL: identificar y reconocer materiales peligrosos, actuar seguro en emergencias; relación con IPER. Niveles de manejo: nivel 1 advertencia, nivel 2 operacional (manejo por supervisores y personal operativo), nivel técnico. Nivel técnico: preparación para responder de manera técnica a incidentes, controlar el incidente y evitar daños materiales. Existen niveles administrativos y operacionales que establecen roles desde advertencia hasta comando de incidentes.</div>
+                  <div class="content-text">Pasos prácticos ante un incidente: Analizar el incidente; reconocer presencia; identificar sustancias; recopilar información de riesgos y llamar a números de respuesta. Usar guías de respuesta (libro naranja, tablas de identificación de carretera/ferrocarril) y comunicar a equipos especializados.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=663" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:11:03)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Evaluación de riesgo, planificación y capacitación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Evaluación y priorización de riesgos: Identificar materiales más peligrosos en contexto (hogar o empresa) y etiquetarlos; organizar según peligrosidad y frecuencia de uso. Registrar movimientos y aplicar FIFO (primeras entradas, primeras salidas) en almacenes para evitar caducidades y contaminación cruzada.</div>
+                  <div class="content-text">Formación y planificación ante emergencias: Entrenamiento del personal, simulacros, definir responsabilidades (quién llama, rutas de evacuación). Planificar, registrar y mantener información precisa para visitas e inspecciones regulatorias; usar sistema de comando (SCI) en emergencias. Roles administrativos y operativos definidos por legislación y normas: gerentes, jefes de flota, responsables de almacén y escoltas tienen funciones específicas y responsabilidades legales por incumplimiento.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=972" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:16:12)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Señalización, etiquetado y normativa</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">SGA, etiquetado y elementos de la etiqueta</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Sistema Globalmente Armonizado (SGA): Unifica clasificación y comunicación de peligros mediante etiquetas y FDS. Etiqueta: identificación del producto, proveedor, pictograma, indicación de peligro, palabra de advertencia y consejos de prudencia.</div>
+                  <div class="content-text">Pictogramas y palabras de advertencia: Pictogramas en rojo sobre fondo blanco; palabras: Peligro (mayor gravedad) y Atención (menor gravedad).</div>
+                  <div class="content-text">Diamante NFPA y significado de colores: Azul: riesgo para la salud (del 0 al 4, de sin riesgo a mortal). Rojo: inflamabilidad (grados según punto de inflamación). Amarillo: inestabilidad/reactividad (grado de explosividad o cambio químico). Blanco: peligros especiales (oxidantes, radioactividad, corrosividad, alta presión).</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=2762" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:46:02)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Normativa y obligaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Legislación citada por países: Normativas y decretos en Chile, Colombia y otros; normas ISO (incluida ISO 45001) unifican prácticas y lenguaje.</div>
+                  <div class="content-text">Obligaciones del usuario y del empleador: Verificar etiquetado y FDS, aplicar procedimientos, capacitarse, no usar productos sin formación, informar falta de FDS/etiquetado. Responsabilidad del empleador en lavado de ropa de trabajo contaminada y en dotación adecuada de EPP. Consecuencias legales por incumplimiento: responsabilidades administrativas y penales en caso de no implementar controles y EPP adecuados.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=2723" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:45:23)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Efectos y alcances de los peligros</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Impactos en salud y medio ambiente</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Riesgos para la salud humana: Irritación, quemaduras químicas, enfermedades de piel, cáncer, problemas reproductivos, enfermedades respiratorias y envenenamiento. Vías de entrada: respiratoria (gases, vapores, aerosoles), dérmica (contacto), digestiva (ingestión), parenteral (heridas). Toxicidad depende de dosis, duración y forma de exposición; efectos pueden ser agudos o crónicos.</div>
+                  <div class="content-text">Daños ambientales y estructurales: Contaminación de suelo y agua; derrames marinos (petróleo) causan mortalidad marina y contaminación a largo plazo. Incendios y explosiones que dañan infraestructura y provocan pérdidas económicas.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=1331" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:22:11)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Riesgos laborales y ejemplos domésticos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Riesgos en empresas y en el hogar: Emisión de gases, partículas, ruido; necesidad de protecciones específicas y control ambiental. Ejemplos domésticos recurrentes: lejía, alcohol, agua oxigenada, thinner, detergentes, naftalina y tanques de asbesto — todos considerados materiales peligrosos. Riesgos particulares: thinner usado como inhalante por abuso; asbesto en tanques/estructuras libera fibras cancerígenas.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=572" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:09:32)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Clases detalladas de materiales peligrosos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Clase 1 a 4: explosivos, gases, líquidos inflamables, sólidos inflamables</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Clase 1 Explosivos: Pueden detonar por presión o impacto; ejemplos: nitroglicerina, dinamita, gas licuado doméstico. Subcategorías por grado de peligrosidad (1 a 6).</div>
+                  <div class="content-text">Clase 2 Gases: Inflamables, no inflamables y venenosos; riesgos: asfixia, toxicidad, riesgo de explosión; ejemplos históricos: gas cloro. Asfixiantes simples (desplazan oxígeno, p. ej. nitrógeno) y asfixiantes químicos (impiden asimilar oxígeno, p. ej. monóxido de carbono).</div>
+                  <div class="content-text">Clase 3 Líquidos inflamables: Gasolina, thinner; fuentes de ignición: chispas eléctricas, superficies calientes, cargas electrostáticas.</div>
+                  <div class="content-text">Clase 4 Sólidos inflamables: Harina de pescado, fósforo, algodón, sodio metálico; riesgos por fricción y dispersión en ambientes cerrados.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=1481" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:24:41)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Clase 5 a 9: oxidantes, tóxicos/infecciosos, radioactivos, corrosivos, misceláneos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Clase 5 Oxidantes y peróxidos orgánicos: Liberan oxígeno y aumentan combustión; ejemplos: agua oxigenada, nitrato de amonio; almacenar ventilado y separado de combustibles.</div>
+                  <div class="content-text">Clase 6 Tóxicos e infecciosos: Sustancias venenosas como cianuro, compuestos mercuriales; también agentes infecciosos con patógenos; control biológico y gestión de residuos.</div>
+                  <div class="content-text">Clase 7 Radioactivos: Emisión de radiación con aplicaciones médicas e industriales; residuos altamente contaminantes; uso en esterilización y medicina.</div>
+                  <div class="content-text">Clase 8 Corrosivos: Hidróxido de sodio, ácido clorhídrico; causan quemaduras químicas en piel, ojos y vías respiratorias.</div>
+                  <div class="content-text">Misceláneos: Mercancías peligrosas diversas y desechos peligrosos presentes en el entorno cotidiano.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=1823" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:30:23)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Protección personal y prácticas laborales seguras</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Equipo de protección y prácticas higiénicas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Elementos de protección recomendados: Traje protector u overall, guantes y botas resistentes, mascarillas con filtros, protección ocular, respiradores y trajes según tipo (1A, 1B, 1C, 3, 4, etc.). Selección de EPP según flujo de decisión y fichas; cambiar EPP regularmente para evitar contaminación cruzada.</div>
+                  <div class="content-text">Higiene y control post-manipulación: Duchas al terminar, no llevar ropa contaminada a casa, guardar o desechar vestimenta en áreas habilitadas. No comer ni beber en áreas con químicos; seguir zonas y horarios designados para alimentos.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=2588" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:43:08)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Capacitación y cultura de seguridad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Formación continua y concienciación: Capacitación permanente, participación en simulacros, comunicación interna y externa para visitas e inspecciones. Uso de tablas y guías disponibles en internet para seleccionar EPP y procedimientos conforme a ISO y normas nacionales. Importancia de roles específicos: formación diferenciada para niveles operativos, técnicos y de comando según competencias requeridas.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=1160" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:19:20)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Orden, aseo y prevención de riesgos locativos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Principios de orden y aseo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición y objetivo: Orden: ubicar elementos en su lugar para manejo seguro y óptimo; aseo: rutina sistematizada para eliminar residuos orgánicos e inorgánicos. Método de las 5S: seleccionar, ordenar, limpiar, estandarizar e implementar con disciplina; primera fase: seleccionar, ordenar y limpiar.</div>
+                  <div class="content-text">Riesgos locativos por deficiencia: Consecuencias: caídas, golpes, incendios, afectaciones ambientales, pérdida de productividad. Beneficios: menos accidentes, más productividad, menos pérdidas.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=4888" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:21:28)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Organización del área y separación de residuos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Implementación práctica: Inspección de condiciones; separación correcta de residuos; almacenamiento seguro de sustancias peligrosas. Liderazgo individual: responsabilizarse del orden y aseo del área de trabajo.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=5030" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:23:50)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Propiedades, toxicología y control de exposición</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Propiedades físicas y químicas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Propiedades físicas: Estado (sólido, líquido, gas), densidad de vapor, solubilidad en agua, peso específico, punto de ebullición/fusión.</div>
+                  <div class="content-text">Propiedades químicas: Toxicidad, corrosividad, reactividad, inestabilidad, capacidad de oxidación, punto de inflamación y temperatura de descomposición.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=5153" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:25:53)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Toxicología y vías de entrada</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Toxicología aplicada a materiales peligrosos: Estudio de efectos nocivos en organismos vivos; efectos leves (dolor de cabeza) a graves (convulsiones, coma).</div>
+                  <div class="content-text">Vías de exposición: Respiratoria, dérmica, digestiva y parenteral; factores: ruta, nivel y duración de exposición, sensibilidad individual. Ejemplos: contaminación cruzada alimentaria en frigoríficos; conservación de alimentos y límites de tiempo (72 horas para carnes en condiciones no adecuadas).</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=5761" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:36:01)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Zonas de control, descontaminación y respuesta ante derrames</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Zonas de control y almacenamiento</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Zona de control: Área delimitada para actividades con materiales peligrosos; demarcación en estaciones de servicio y puntos de descarga. Almacenamiento de botellas y bidones con delimitación y rutas de evacuación.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=6084" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:41:24)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Descontaminación y manejo de derrames</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Proceso de descontaminación: Eliminación o reducción de la contaminación de personas, equipos y áreas según procedimientos. Uso de esponjas, absorbentes y materiales específicos; coordinación con encargados de residuos.</div>
+                  <div class="content-text">Manejo de derrames y fugas: Pueden ocurrir en transporte, almacenamiento, manipulación o uso; planificar respuesta según guía de emergencia. Recomendaciones: evitar contacto físico, permanecer en interiores con ventanas cerradas, cubrir nariz y boca, seguir información oficial.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=6167" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:42:47)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Sistemas de gestión y herramientas de emergencia</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Comando y comunicación en emergencias</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Sistema de comando (SCI) y componentes: Herramienta para gestionar emergencias relacionadas con materiales peligrosos; integrar MSD/FDS, diamante NFPA, tablas de incompatibilidad y sistemas integrados de gestión.</div>
+                  <div class="content-text">Información y apoyo externo: Contactar números de respuesta del fabricante/transportista; proporcionar datos (empresa, vehículo) y consultar guías internacionales.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=6336" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:45:36)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Planeamiento y recursos preventivos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Kits antiderrame y dotación: Mantener kits accesibles cerca de áreas de riesgo; revisar y reabastecer periódicamente. Capacitar trabajadores en su uso y en evaluación inicial del derrame (tamaño, tipo de líquido, fuentes de ignición). Recomendación práctica: disponer el kit en fábricas, gasolineras y puntos donde se manejen líquidos peligrosos.</div>
+                  <a href="https://www.youtube.com/watch?v=w6ghAQxqvsQ&start=6686" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:51:26)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "SEGURIDAD INDUSTRIAL".toUpperCase();
+      const TITULO_CLASE = "CLASE 14: MATERIALES PELIGROSOS".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

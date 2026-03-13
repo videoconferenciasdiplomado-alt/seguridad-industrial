@@ -1,0 +1,1695 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Introducción y objetivos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Presentación inicial y objetivo de la capacitación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Profesor prueba plataforma y establece dinámica de apoyo técnico: Pide paciencia y colaboración ante problemas técnicos.</div>
+                  <div class="content-text">Objetivo de la sesión: comprender nueva estructura de normas ISO y recomendaciones para migrar a ISO 45001: Enfoque en beneficios y diferencias frente a normas previas como OHSAS 18001. Se anticipa continuidad del curso con ejemplos prácticos y material audiovisual para facilitar la comprensión.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=72" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:01:12)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Seguimiento del curso y participación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Contenido presentado combina teoría, películas y ejemplos prácticos para facilitar aprendizaje en sesiones largas.</div>
+                  <div class="content-text">Se invita a la participación activa (preguntas, comentarios) y a revisar grabaciones cuando sea necesario.</div>
+                  <div class="content-text">Próximas sesiones abordarán términos, metodologías de identificación de peligros, requisitos legales y estudios de caso específicos para consolidar la implementación de ISO 45001.</div>
+                  <div class="content-text">Preguntas para reflexionar: comparación de peligros domésticos (piso resbaloso, balón de gas, toma corriente) y ejemplos de empresas sin medidas de seguridad para discutir en la próxima clase.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=5880" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:38:00)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Conceptos generales sobre ISO y OHSAS</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Qué es ISO y por qué importa</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">ISO como organización internacional de estandarización que crea normas voluntarias para productos, servicios y buenas prácticas: Normas buscan eficacia, eficiencia y calidad internacionalmente aplicable. Ejemplo práctico con bebidas y exportaciones para ilustrar estandarización global. Relevancia en producción y comercio internacional (controles de calidad, salubridad y ambiente).</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=87" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:01:27)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Diferencia entre OHSAS y ISO 45001</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">OHSAS definido como protocolo para salud y seguridad laboral, más orientado a articulado y prácticas: Estructura anterior con foco en prevención de accidentes y controles concretos.</div>
+                  <div class="content-text">ISO 45001 (2018) sustituyó a OHSAS 18001 y aporta estructura de alto nivel compatible con otras ISO: Año en la designación indica la versión (p. ej. 2018). Incorpora gestión de riesgos y oportunidades, liderazgo y participación de trabajadores.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=215" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:03:35)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Estructura y elementos clave de ISO 45001</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Estructura de alto nivel y cláusulas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">ISO 45001 utiliza la estructura común de 10 cláusulas: Cláusulas 1-3 informativas; 4-10 con requisitos: contexto, liderazgo, planificación, apoyo, operación, evaluación del desempeño y mejora. Enfoque en ciclo de mejora (PDCA) y participación de trabajadores y partes interesadas. Integra liderazgo, riesgos y oportunidades, competencia y comunicación.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=1561" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:26:01)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Términos y definiciones relevantes</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definiciones clave: peligro, riesgo, incidente, no conformidad, acción correctiva, mejora continua: Peligro: fuente, situación o acto con potencia para causar daño o deterioro de la salud. Ejemplos: aire acondicionado, ruido, vibraciones, pisos resbaladizos, trabajos en altura, actos como correr en escaleras o fumar cerca de combustibles. Riesgo: combinación de probabilidad de ocurrencia y severidad del daño. Tipos: riesgo puro (sin control), riesgo residual (con controles aplicados), riesgo aceptable (reducido a nivel tolerable según obligaciones legales). Cuantificación mediante tablas y criterios definidos por la organización.</div>
+                  <div class="content-text">Conceptos organizacionales: organización, partes interesadas, trabajador, contratista, lugar de trabajo, requisito: Importancia de definir lugar de trabajo en contextos complejos (ej. minería y campamentos).</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=2003" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:33:23)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Comparación ISO 45001 vs OHSAS 18001 y aplicación práctica</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Diferencias en enfoque y responsabilidades</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">ISO 45001 enfatiza gestión de riesgos y oportunidades y participación activa de alta dirección: Alta dirección es responsable y debe demostrar liderazgo; gerente general asume responsabilidad final. La implementación es obligatoria según legislación nacional (ej. Perú) y la dirección puede ser legalmente responsable si no cumple.</div>
+                  <div class="content-text">OHSAS enfatizaba prevención y control de peligros con estructura menos alineada a otras normas ISO: Ambos requieren compromiso, capacitación y mejora continua pero con enfoques distintos.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=686" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:11:26)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Implementación, planificación y gestión del cambio</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">ISO 45001 exige identificación de riesgos y oportunidades documentados y planes de acción para mejorar desempeño: Gestión de cambios y objetivos específicos por etapas del ciclo de vida de producto/actividad. Planificación basada en evaluación continua de riesgos, considerando interacciones entre actividades. Jerarquía de control: eliminación, sustitución, controles de ingeniería, cambios en procedimientos y EPP.</div>
+                  <div class="content-text">Ejemplo construcción: seguridad varía por piso/etapa (sótano vs primer piso vs altura): Medidas y EPP deben ajustarse según fase y riesgo.</div>
+                  <div class="content-text">Gestión del cambio: planificar cambios en productos, servicios, tecnologías y procesos; reevaluar riesgos tras cambios: Cambios legales y tecnológicos constantes requieren actualización de criterios, tiempos y prácticas laborales (ej. tiempos de alimentación, registro de ingreso y tiempo para colocarse EPP).</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=817" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:13:37)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.3</span>
+                  <span class="subsection-title">Auditorías, evaluación y certificación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Auditoría: proceso sistemático, independiente y documentado para verificar cumplimiento: Auditor externo o interno neutral; evidencia documental y práctica.</div>
+                  <div class="content-text">No conformidad conlleva observaciones y plazos para subsanar; falta de cumplimiento puede implicar multas y responsabilidad legal: En Perú, ministerio de trabajo y municipalidades realizan inspecciones y auditorías.</div>
+                  <div class="content-text">Auditorías internas: función del comité de seguridad y salud en el trabajo, bipartito y con facultades para evaluar y mejorar el sistema.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=3164" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:52:44)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Identificación de peligros y evaluación de riesgos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Identificación y clasificación de peligros</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Peligros pueden ser fuentes, situaciones o actos que causan daño: Fuentes: equipos, materiales, ambiente (ej. aire acondicionado, ruido, vibraciones). Situaciones: condiciones del entorno (ej. pisos resbaladizos, semáforos defectuosos, trabajos en altura). Actos: comportamientos humanos (ej. correr escaleras, adelantamientos peligrosos).</div>
+                  <div class="content-text">Personas realizan actos peligrosos; equipos y materiales suelen ser fuente o situación de peligro: Importancia de un estándar que contemple múltiples escenarios y la posibilidad de encontrar los tres tipos en un mismo caso.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=3600" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:00:00)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Evaluación y tratamiento del riesgo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Riesgo = probabilidad de exposición × severidad del daño; se mide y cuantifica con tablas y criterios definidos: Definir criterio específico para evaluaciones y distinguir riesgo puro, residual y aceptable.</div>
+                  <div class="content-text">Metodologías para gestionar riesgos: eliminar, sustituir, controles de ingeniería, controles administrativos, EPP: Establecer prioridades y objetivos basados en la jerarquía de control.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=3671" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:01:11)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Contexto de la organización y factores internos/externos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Contexto organizacional e influencia en SST</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Contexto de la organización: identificar factores internos y externos que afectan la capacidad de gestionar SST: Resultados deseados: mejorar desempeño de SST, cumplir obligaciones legales y alcanzar objetivos.</div>
+                  <div class="content-text">Factores internos: tamaño, complejidad, estructura, naturaleza de actividades y procesos internos de toma de decisiones: Ejemplos: desde una tienda unipersonal hasta grandes empresas mineras; diferentes riesgos según puestos y áreas. Importancia de documentar y planificar funciones en MOF para evitar asignaciones peligrosas fuera de competencia.</div>
+                  <div class="content-text">Entorno cambiante: ubicaciones de lugares de trabajo, organización del trabajo, equipos, fuerza de trabajo y nuevos productos varían constantemente: Tecnología y cambios legales influyen en condiciones de trabajo y requieren actualización continua de información sobre peligros y riesgos.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=3809" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:03:29)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Factores externos y culturales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Factores externos: requisitos legales y estatutarios, normas nacionales/internacionales, cuestiones culturales regionales y locales: Ejemplos culturales: celebraciones religiosas o rituales vinculados a comunidades mineras que pueden afectar operaciones y deben considerarse en la gestión.</div>
+                  <div class="content-text">Expectativas de partes interesadas, competencia de mercado y pactos con comunidades: Relevancia de acuerdos precisos con comunidades para evitar paralizaciones (ej. bloqueos en rutas de mineral).</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=4869" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:21:09)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Liderazgo, políticas y cultura organizacional</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Liderazgo y rendición de cuentas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Liderazgo y compromiso: alta dirección debe asignar responsabilidades, autoridades y asegurar conformidad del sistema de gestión: Informes periódicos a la dirección sobre desempeño del sistema de gestión y resultados de auditorías. La dirección puede ser penalmente responsable por incumplimiento que derive en accidentes graves.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=5197" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:26:37)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Política, objetivos y cultura</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Política de seguridad y salud en el trabajo debe ser documentada, comunicada y accesible a partes interesadas: Contenido: compromiso con condiciones de trabajo seguras, prevención de lesiones, cumplimiento legal, eliminación de peligros y consulta de trabajadores.</div>
+                  <div class="content-text">Cultura organizacional: influye en la adopción de prácticas seguras; clave para la participación, comunicación y aceptación de medidas (ej. tolerancia cero en minas): Objetivos y estrategias derivan de la política; incluyen capacitaciones, pausas activas, revisiones médicas y sanciones contractuales por incumplimiento.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=4226" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:10:26)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Apoyos, recursos y competencia</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Recursos y competencias</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Recursos necesarios: humanos, materiales y técnicos para mejorar resultados de SST: Varían según tamaño y tecnología de la organización; incluso empresas sin local deben considerar responsabilidades de SST.</div>
+                  <div class="content-text">Competencia: la organización debe asegurar, mantener y evaluar la eficacia de las competencias del personal: Selección por competencias, formación continua y registros documentados de capacitación.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=6621" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:50:21)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Toma de conciencia y criterio personal</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Toma de conciencia: base para comportamientos seguros; separar problemas personales del desempeño en el trabajo.</div>
+                  <div class="content-text">Programas para elevar moral en fechas críticas (vacaciones, festividades) y reducir riesgos asociados.</div>
+                  <div class="content-text">Criterio personal: capacidad del trabajador de negarse a realizar tareas fuera de su competencia cuando representen peligro.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=6666" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:51:06)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Comunicación, consulta y participación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Comunicación interna y externa</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Establecer procesos para comunicaciones internas y externas: qué comunicar, cuándo, a quién y cómo.</div>
+                  <div class="content-text">Incluir contratistas, visitantes, servicios de emergencia y autoridades; contrarrestar la comunicación informal (rumores) con información formal y oportuna.</div>
+                  <div class="content-text">La comunicación debe ser clara, comprensible y pertinente, con mecanismos que permitan participación y retroalimentación.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=6812" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:53:32)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Consulta y participación de trabajadores</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Implementar procesos para consulta y participación a diferentes niveles y funciones.</div>
+                  <div class="content-text">Considerar diferencias entre trabajadores manuales e intelectuales; eliminar barreras a la participación y asegurar acceso a información y formación.</div>
+                  <div class="content-text">Escuchar a los trabajadores sobre sitios de riesgo y registrar sus observaciones para acciones de mejora.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=6113" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:41:53)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Preparación y respuesta ante emergencias</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Planificación de emergencias y simulacros</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Preparación y respuesta: identificar emergencias potenciales y mantener planes documentados de respuesta: Simulacros controlados para todas las emergencias relevantes: sismos, incendios, asaltos, inundaciones, accidentes de tránsito, etc. Evaluar desempeño después de simulacros o emergencias reales: tiempos de respuesta, preparación del personal y atención oportuna.</div>
+                  <div class="content-text">Aplicación doméstica: los principios de preparación deben implementarse también en el hogar (ruta de evacuación, contactos, botiquín, linterna): Formación y práctica en familia para evitar caos en emergencias y asegurar ejecución de la respuesta planificada.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=5284" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:28:04)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Comunicaciones y necesidades especiales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Planificar comunicaciones durante emergencias a contratistas, visitantes, servicios de emergencia, autoridades y la comunidad local: Considerar necesidades y capacidades de partes interesadas, incluidas personas con discapacidad.</div>
+                  <div class="content-text">Mantener información documentada sobre procesos y planes de respuesta; solicitar apoyo externo cuando sea necesario: Provisión de formación específica para respuesta planificada y comunicación pertinente a contratistas.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=5815" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:36:55)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Requisitos documentales y control de la información</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Información documentada obligatoria</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Registros requeridos: accidentes, capacitaciones, auditorías, evaluaciones y planes de emergencia.</div>
+                  <div class="content-text">Conservación y actualización de documentación; suscripciones a boletines legales y membresías en asociaciones para mantenerse vigente.</div>
+                  <div class="content-text">Falta de documentación puede llevar a sanciones y pérdida de certificación.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=2770" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:46:10)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Mantenimiento y conservación de la información</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Establecer criterios para procesos, controles y mantenimiento de información.</div>
+                  <div class="content-text">Control de versiones, acceso oportuno a información y recursos para garantizar cumplimiento y trazabilidad.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=7033" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:57:13)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Aplicación en contextos reales y ejemplos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Casos prácticos y ejemplos sectoriales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Exportaciones agroindustriales (arándanos, palta) requieren cumplimiento estricto de salubridad y medio ambiente para mercados exigentes.</div>
+                  <div class="content-text">Prohibiciones y conflictos en agricultura europea ilustran rigidez de controles.</div>
+                  <div class="content-text">Ejemplos en minería: evolución tecnológica, necesidad de pactos con comunidades y consideración de costumbres locales (ej. rituales) para mantener operaciones seguras.</div>
+                  <div class="content-text">Accidentes reales ilustran consecuencias de no implementar sistemas de registros y anulación de riesgos (caso minería en Arequipa).</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=1245" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:20:45)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Micro, pequeñas y grandes empresas: medidas proporcionales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Micro y pequeñas empresas: requisitos mínimos según actividad (señalización, extintores, higiene) y adaptación de políticas a tamaño y complejidad.</div>
+                  <div class="content-text">Implementación de comité o representante técnico según número de trabajadores.</div>
+                  <div class="content-text">Grandes empresas: complejidad organizativa, selección por competencias, planes de contingencia y mayores recursos para SST.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=3932" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:05:32)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="13">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">13</span>
+              <span class="section-title">Ventajas, desventajas y elementos operativos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.1</span>
+                  <span class="subsection-title">Beneficios y limitaciones de ISO 45001</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ventajas: aplicable a cualquier organización, mejora de reputación, enfoque en prevención, estructura alineada con otras ISO.</div>
+                  <div class="content-text">Incluye ciclo de vida, gestión de riesgos y oportunidades, participación y capacitación.</div>
+                  <div class="content-text">Desventajas: requiere mayor inversión de tiempo y recursos, necesidad de formación técnica y adaptación cultural.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=1354" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:22:34)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.2</span>
+                  <span class="subsection-title">Requisitos operativos y ejemplos de control</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Competencia y formación: formación inmediata, in-job y seguimiento; evaluación de aprendizaje y aplicación práctica.</div>
+                  <div class="content-text">Pausas activas, charlas de seguridad breves, revisiones médicas y control de implementos.</div>
+                  <div class="content-text">Ejemplo de criterio y EPP: selección de protección adecuada según tarea (casco, protector facial, guantes) y rechazo de prácticas inseguras por criterio personal.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=2770" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:46:10)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="14">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">14</span>
+              <span class="section-title">Planificación, objetivos y mejora continua</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.1</span>
+                  <span class="subsection-title">Establecer y gestionar objetivos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Planificación es clave: acciones basadas en evaluación de riesgos para gestionar riesgos y oportunidades.</div>
+                  <div class="content-text">Establecer objetivos orientados a eliminar o minimizar accidentes; revisar objetivos tras cambios y eventos.</div>
+                  <div class="content-text">Integración de sistemas: interrelación entre capacitación, legislación, ISO y otras herramientas para construir un enfoque integral de SST.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=6287" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:44:47)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.2</span>
+                  <span class="subsection-title">Evaluación del desempeño y retroalimentación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Evaluar eficacia de respuestas a emergencias y simulacros; revisar tiempos, preparación y atención para mejoras.</div>
+                  <div class="content-text">Informar a alta dirección y tomar acciones correctivas frente a desviaciones; mantener ciclo PDCA constante.</div>
+                  <div class="content-text">Evaluación del cumplimiento: auditorías internas y externas permiten verificar resultados previstos del sistema y son responsabilidad del comité de SST.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=5780" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:36:20)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="15">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">15</span>
+              <span class="section-title">Gestión de actividades externas y sistemas normativos complementarios</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.1</span>
+                  <span class="subsection-title">Integración de contratistas y procesos de compra</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Contratistas y compras deben integrarse al mismo sistema de SST que la organización principal: Misma exigencia de requisitos, EPP y controles para contratistas y trabajadores propios. La organización contratante es responsable ante accidentes de contratistas que operen en su ámbito.</div>
+                  <div class="content-text">Control contractual: acuerdos deben definir requisitos de seguridad, identificación de peligros y controles de riesgo.</div>
+                  <div class="content-text">Procesos de compras deben asegurar suministros y EPP equivalentes (ej. calzado CAT, EPPs de algodón) y coherencia con estándares de la empresa principal.</div>
+                  <div class="content-text">Actividades operacionales de contratistas que impactan la organización deben gestionarse y supervisarse como si fueran propias.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=7200" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:00)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.2</span>
+                  <span class="subsection-title">Otras normas ISO relevantes</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Existen normas complementarias que abordan aspectos vinculados a SST y gestión de riesgos: ISO 31000: gestión de riesgos en organizaciones. ISO 22000: inocuidad alimentaria. ISO 27001: seguridad de la información. ISO 22301: continuity del negocio. ISO 28001 / 28000: seguridad en cadenas de suministro. ISO 37001: sistema antisoborno. ISO 39001: gestión de la seguridad vial.</div>
+                  <div class="content-text">Estas normas pueden integrarse o complementar ISO 45001 para abordar riesgos específicos de procesos, cadena de suministro, tráfico y corrupción.</div>
+                  <a href="https://www.youtube.com/watch?v=baL-GulNaJ8&start=7643" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:07:23)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "SEGURIDAD INDUSTRIAL".toUpperCase();
+      const TITULO_CLASE = "CLASE 11: NORMA INTERNACIONAL ISO 45001:2018".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

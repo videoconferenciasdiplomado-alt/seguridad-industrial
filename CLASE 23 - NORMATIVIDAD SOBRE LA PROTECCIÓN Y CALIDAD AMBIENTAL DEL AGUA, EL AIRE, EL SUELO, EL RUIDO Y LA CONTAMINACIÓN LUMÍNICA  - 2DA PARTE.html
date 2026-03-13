@@ -1,0 +1,1616 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Presentación y agenda</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Introducción y estructura de la clase</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Inicio por temas técnicos y aviso de retraso en la presentación: Breve saludo y agradecimientos por ver el video.</div>
+                  <div class="content-text">Agenda general: normativa de protección y calidad ambiental, ruido y contaminación lumínica, luego reglamento del CIA (Ley 27446): Secuencia: ECA ruido → contaminación lumínica → reglamento del CIA.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=21" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:00:21)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Conexión con siguientes sesiones y cierre</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Próxima sesión: profundización en SENACE como ente rector y revisión de casos prácticos: Se abordarán aspectos más detallados del rol de SENACE y algún caso práctico según tiempo disponible.</div>
+                  <div class="content-text">Agradecimientos y cierre final de la clase: Invitación a retomar en la siguiente sesión y despedida final.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=7375" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:02:55)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">ECA ruido: conceptos y normativa</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Marco legal y objetivo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Decreto Supremo 085-2003 (PCM): Estándares nacionales de calidad ambiental para ruido emitido en octubre 2003: Objetivo: proteger la salud humana midiendo parámetros acústicos.</div>
+                  <div class="content-text">Distinción ECA (medición en punto del ambiente exterior) vs LMP (límite máximo permisible en punto específico): LMP específico para aeronaves; poco aplicado en industria salvo zonas cercanas a aeropuertos.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=238" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:03:58)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Definiciones técnicas y unidades</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Nivel de presión sonora equivalente ponderación A (LAeq) medido en decibelios: Decibelio es logaritmo de la razón entre una medida y referencia (20 micropascales), no es lineal.</div>
+                  <div class="content-text">Tipos de ponderación: A (estándar y uso humano), C (baja frecuencia), Z (plana): Uso corriente: ponderación A.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=254" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:04:14)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.3</span>
+                  <span class="subsection-title">Categorías de zonas y límites</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Zona industrial: hasta 80 dB diurno y 70 dB nocturno: En interior industrial se controla con EPP (protección auditiva) y medidas de ingeniería.</div>
+                  <div class="content-text">Zona comercial: hasta 70 dB diurno y 60 dB nocturno: Avenidas y flujo vehicular justifican mayor tolerancia diurna.</div>
+                  <div class="content-text">Zona residencial: hasta 60 dB diurno y 50 dB nocturno: Protección del descanso nocturno.</div>
+                  <div class="content-text">Zonas de protección especial: diurno y nocturno más restrictivos (ej. 50 / 40 dB): Incluye santuarios, observación de aves y casos particulares.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=390" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:06:30)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Medición, equipos y procedimientos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Instrumentos y medición</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Calibrador acústico verifica respuesta del equipo: Sonómetros integradores de clase 1 recomendados para campo.</div>
+                  <div class="content-text">Sonómetros integradores calculan LAeq integrando área bajo la curva temporal: Frecuencia de comunicación típica RS-232 para descarga de datos a computador.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=1177" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:19:37)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Protocolos de medición y tiempos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Medición ponderada cada 20 minutos o tiempo adecuado según protocolo vigente: Debe cubrir periodos de máxima generación y ciclos repetitivos del proceso.</div>
+                  <div class="content-text">Punto de medición: fuera de los límites del predio para enfoque ambiental: Interior de planta corresponde a enfoque ocupacional (control por ingeniería y EPP).</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=2156" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:35:56)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.3</span>
+                  <span class="subsection-title">Consideraciones prácticas y errores a evitar</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Equipos deben estar calibrados por entidad autorizada por INACAL: Sanciones pueden caer si mediciones no tienen validez técnica.</div>
+                  <div class="content-text">Recomendar interfaz y descarga digital para evitar errores humanos en registro: Registrar hora y filmar monitoreo cuando sea posible para respaldo probatorio.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=1814" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:30:14)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Impactos, control y ejemplos de casos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Efectos sobre la salud y ambientales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ruido puede causar estrés y daño auditivo; umbral de percepción hasta ~140 dB con riesgo de lesión a niveles muy altos: ECA busca prevenir daño y preservar entorno humano.</div>
+                  <div class="content-text">Ruido continuo vs impulsivo: diferente tratamiento en medición y efectos: Ejemplos: motor continuo, disparos o martillo neumático como impulsivos.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=1678" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:27:58)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Enfoques de mitigación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Control ocupacional: ingeniería y EPP dentro de la planta: Ejemplos: protectores auditivos para trabajadores en zonas críticas.</div>
+                  <div class="content-text">Control ambiental: barreras acústicas, materiales absorbentes (polistireno, poliuretano): Ubicación estratégica para evitar emisión hacia viviendas y espacios públicos.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=726" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:12:06)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.3</span>
+                  <span class="subsection-title">Caso práctico: vivienda-taller en SJL</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">OEFA midió LAeq 66.9 dB en exterior, excediendo ECA residencial diurno (60 dB): Procedimiento administrativo sancionador por no adoptar medidas de manejo de ruido.</div>
+                  <div class="content-text">Defensa del administrado: ruido de fondo por mototaxis como argumento: Posible línea de base y estudio previo podrían respaldar defensa, pero control de ingeniería sigue siendo la solución.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=2242" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:37:22)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Contaminación lumínica: ley y alcance</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Marco normativo y situación actual</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ley Nº 31316 (27 jul 2021): Ley de Prevención y Control de la Contaminación Lumínica: Ley existe pero reglamento aún pendiente, por tanto aplicación parcial hasta su aprobación.</div>
+                  <div class="content-text">MINAM responsable de límites y protocolo; OEFA de monitoreo; gobiernos locales como EFA para fiscalización: Reglamentación definirá límites de iluminancia y prohibiciones específicas.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=2741" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:45:41)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Ámbito de aplicación y exclusiones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Aplica a iluminación de actividades deportivas, industriales, de servicios, elementos de publicidad exterior y alumbrado público: Excluye situaciones imprescindibles para seguridad e integridad (trabajos en vías, sirenas, emergencias).</div>
+                  <div class="content-text">Restricciones preliminares: pantallas LED/electrónicas no instalar en zona residencial ni a <500 m de áreas verdes y ecosistemas frágiles: Autorizaciones de elementos publicitarios renovables cada 3 años.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=2916" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:48:36)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.3</span>
+                  <span class="subsection-title">Definiciones técnicas y obligaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definiciones: contaminación lumínica, deslumbramiento, elementos de publicidad exterior, intensidad luminosa, iluminancia (lúmenes/m²): Conceptos técnicos servirán para el protocolo del MINAM en el reglamento.</div>
+                  <div class="content-text">Obligaciones de titulares: contar con autorización, cumplir horarios y límites de iluminancia, blindar facilidades al supervisor: Responsabilidad extendida del productor para disposición de residuos y requerimiento de seguro o instrumento financiero para retiro.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=3061" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:51:01)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Fiscalización, sanciones y roles institucionales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Competencias y coordinación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">MINAM: función normativa, establecer límites y protocolos: OEFA: monitoreo y rol de órgano rector de las EFA.</div>
+                  <div class="content-text">Municipalidades y gobiernos regionales: incorporar requisitos al TULPA y autorizar elementos en sus vías: MTC: incorpora requisitos en TULPA para rutas nacionales y derechos de vía.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=3216" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:53:36)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Tipificación de infracciones y aplicación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Tipificación y sanciones quedan para el reglamento; provisionales asignaciones: Educación: alumbrado deportivo. Producción: alumbrado de servicios. OEFA: infracciones de instalaciones industriales.</div>
+                  <div class="content-text">Fiscalización local y nacional según jurisdicción y tipo de instalación: Regulaciones específicas y montos deberán detallarse en el reglamento.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=3403" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:56:43)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Reglamento del CIA: estructura, alcance y funciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Sistema y marco normativo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El Sistema Nacional de Gestión Ambiental incluye al Sistema Nacional de Evaluación del Impacto Ambiental (CIA) y al sistema de fiscalización: El CIA se regula principalmente por la Ley 27446 (20 abr 2001) y su reglamento Decreto Supremo 019-2009.</div>
+                  <div class="content-text">MINAM es la autoridad macro y administra el sistema a través del Viceministerio de Gestión Ambiental y la Dirección Nacional de Políticas, Normas e Instrumentos de Gestión Ambiental (DGPIGA): SENACE/CENACE actúa como órgano rector técnico para evaluación ex-ante; OEFA y EFAs realizan fiscalización ex-post.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=3625" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:00:25)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Principios y objetivos del reglamento</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Principios: indivisibilidad, participación, eficiencia, complementariedad y eficacia: Indivisibilidad: evaluar unidad de actividad (ej. planta y PTAR en un solo estudio). Participación: procesos participativos con población del área de influencia directa.</div>
+                  <div class="content-text">Objetivos: identificar, prevenir y corregir impactos ambientales negativos y formalizar la evaluación técnica del estudio de impacto ambiental: Asegurar cumplimiento de ECA y LMP mediante instrumentos técnicos y compromisos del titular.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=4807" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:20:07)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.3</span>
+                  <span class="subsection-title">Ámbito de aplicación y tipos de instrumentos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ámbitos: evaluación ambiental estratégica para políticas, planes y programas; evaluación para proyectos de inversión pública o privada que generen impactos significativos: Evaluación ambiental estratégica aplica a decisiones de política pública y planes declarados de interés nacional.</div>
+                  <div class="content-text">Instrumentos preventivos del CIA: Declaración de Impacto Ambiental (DIA, categoría 1), Estudio de Impacto Ambiental semi-detalado/detallado (categorías 2 y 3) y Evaluación Ambiental Estratégica (EAE): Instrumentos complementarios/correctivos: PAMA y otros planes de adecuación y manejo ambiental para actividades en curso.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=4966" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:22:46)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Contenido técnico del estudio y medidas de manejo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Línea de base y medidas preventivas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El estudio debe presentar línea de base (recursos hídricos, biota, condiciones del suelo, ruido, emisiones) y plan de manejo ambiental: Medidas preventivas buscan que, antes de iniciar, el proyecto contemple tratamiento de efluentes, manejo de residuos y control de emisiones y ruido.</div>
+                  <div class="content-text">Ejemplo práctico: planta procesadora de mango: Plan de tratamiento de aguas residuales (PTAR) para cumplir LMP, plan de minimización y manejo de residuos sólidos (compostaje de pulpa), filtrado o lavado de gases de calderas.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=4242" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:10:42)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Mitigación, compensación e intensificación de impactos positivos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Mitigar y corregir impactos: soluciones técnicas por cada impacto identificado (barreras acústicas, absorbentes, PTAR, micro rellenos sanitarios, compostaje): Compensación si procede y medidas de seguimiento y monitoreo ambiental.</div>
+                  <div class="content-text">Intensificar impactos positivos: priorizar contratación local y compra a proveedores de la zona cuando la relación calidad-precio lo permita: Participación busca minimizar conflictos sociales y maximizar beneficios locales (empleo, proveedores).</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=6544" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:49:04)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Alcance práctico: proyectos no comprendidos y actividades en curso</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Aplicación de normativa a proyectos menores y existentes</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Proyectos no comprendidos en el CIA deben cumplir marco legal sectorial vigente (manejo de aceites, efluentes, emisiones, ruidos, suelos): Ejemplo: pequeños comercios en zona urbana usan alcantarillado público pero deben gestionar aceites y residuos correctamente.</div>
+                  <div class="content-text">Actividades ya en ejecución: se aplican instrumentos correctivos (PAMA u otros) en lugar de instrumentos preventivos: El objetivo es alinear actividades existentes al cumplimiento ambiental sin clausurar proyectos legítimos.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=5411" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:30:11)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Clasificación y lista de inclusión</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El reglamento contiene anexos (ej. Anexo 2) con listados de proyectos incluidos según tipología industrial y grado de impacto: El órgano rector actualiza la lista de inclusión mediante resolución o decreto supremo según necesidad.</div>
+                  <div class="content-text">Proyectos nuevos, ampliaciones, modificaciones y reubicaciones requieren evaluación acorde a su nueva línea de base y posibles impactos.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=5228" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:27:08)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Funcionamiento del proceso de evaluación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Roles y competencias</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">MINAM: norma, administra, aprueba lineamientos y mantiene registros (entidades autorizadas, lista de proyectos sujetos al CIA, certificaciones): SENACE/CENACE: conduce procesos de evaluación, clasifica TDR, emite guías técnicas y otorga certificación ambiental para ciertas categorías.</div>
+                  <div class="content-text">Autoridades regionales y locales: evalúan y certifican dentro de sus competencias descentralizadas: OEFA y EFAs: fiscalizan, supervisan y sancionan en fase posterior a la aprobación.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=5598" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:33:18)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Registro, revisión y control</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Decreto Legislativo 17.8 incorporó la Evaluación Ambiental Estratégica y el registro de entidades autorizadas para elaborar evaluaciones y estudios: MINAM realiza revisiones aleatorias de estudios aprobados y mantiene base de datos de certificaciones ambientales.</div>
+                  <div class="content-text">Procedimiento administrativo único (normas recientes como DS 013/025-2024 mencionadas) apunta a uniformizar certificación y trámites: Términos técnicos: TDR (términos de referencia) guían la elaboración de estudios.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=4085" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:08:05)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Producto final: certificación ambiental y seguimiento</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Naturaleza y efectos de la certificación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La certificación ambiental es un título habilitante expedido por la autoridad competente que aprueba un instrumento de gestión ambiental: Suele materializarse en una resolución de aprobación acompañada de informe técnico y condicionamientos.</div>
+                  <div class="content-text">Obtener certificación permite iniciar construcción en términos ambientales; siguen vigentes otros permisos municipales y sectoriales (licencia de construcción, factibilidades).</div>
+                  <div class="content-text">Certificación habilitante brinda seguridad jurídica al inversionista: Facilita inversión por previsibilidad y demuestra participación ciudadana y beneficios sociales identificados durante la evaluación.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=6858" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:54:18)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Monitoreo y cumplimiento post-aprobación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La certificación incluye condiciones, planes de monitoreo y obligaciones de reporte; OEFA/EFAs realizan fiscalización y sanción en caso de incumplimiento: MINAM y SENACE mantienen registros y revisiones aleatorias para control de calidad de aprobaciones.</div>
+                  <div class="content-text">Instrumentos de gestión ambiental complementarios (PAMA, planes de adecuación) supervisan actividades en curso y garantizan alineamiento al cumplimiento ambiental.</div>
+                  <div class="content-text">Plazo de vigencia y pérdida de certificación: La certificación ambiental se pierde si no se inician las obras dentro de tres años; el titular puede solicitar hasta dos años adicionales. Pérdida se explica por cambios sociales o en línea base que afectan la validez de la evaluación.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=4093" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:08:13)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Procedimientos, requisitos y títulos habilitantes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Requisitos formales y contenido mínimo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Contenido mínimo y formato electrónico del expediente: Información sobre titular, recibo de pago por derecho de trámite y otros requisitos que determine la autoridad.</div>
+                  <div class="content-text">Títulos habilitantes previos al inicio de la ejecución del proyecto: Autoridades competentes pueden exigir certificados o constancias sectoriales como requisito para la certificación ambiental.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=7202" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:02)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Autoridad competente y trámites sectoriales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">SENACE como autoridad para proyectos de alcance nacional o multirregional: Autoridades regionales o locales para proyectos dentro de su competencia.</div>
+                  <div class="content-text">Ejemplos de constancias previas: CIRA, Ministerio de Cultura sobre ausencia de restos arqueológicos: Estas constancias permiten iniciar trámites administrativos sin comprometer priorización estatal del proyecto.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=7206" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:06)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.3</span>
+                  <span class="subsection-title">Efectos administrativos y financieros</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Inicio de trámites no obliga al Estado a priorizar el proyecto: Si se deroga la certificación ambiental no existe obligación de devolución de los montos pagados.</div>
+                  <div class="content-text">Etapas claras del proceso: clasificación, elaboración, evaluación y aprobación: Etapa posterior de seguimiento, control y sanción.</div>
+                  <a href="https://www.youtube.com/watch?v=FHadi-3BthM&start=7350" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:02:30)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "SEGURIDAD INDUSTRIAL".toUpperCase();
+      const TITULO_CLASE = "CLASE 23: NORMATIVIDAD SOBRE LA PROTECCIÓN Y CALIDAD AMBIENTAL DEL AGUA, EL AIRE, EL SUELO, EL RUIDO Y LA CONTAMINACIÓN LUMÍNICA - 2DA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1841 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Comité de Seguridad y Salud en el Trabajo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Saludos y control técnico</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Inicio con saludos repetidos y comprobaciones de visualización: Varias repeticiones de "Thank you" y preguntas sobre si se ven las diapositivas. Problemas técnicos breves y resolución para continuar la clase.</div>
+                  <div class="content-text">Presentación del tema general de la sesión: Curso sobre investigación de accidentes, incidentes y enfermedades ocupacionales. Relación con el Comité de Seguridad y Salud en el Trabajo como punto de partida.</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=0" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:00:00)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Definición y propósito</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Comité responsable de coordinar, comentar y hacer seguimiento de actividades de seguridad y salud: Actúa mediante reuniones regulares y promueve la participación de directivos, usuarios y colaboradores.</div>
+                  <div class="content-text">Objetivo principal: instaurar cultura de prevención: Detectar y evaluar riesgos inherentes a procesos, equipos e instalaciones. Adoptar medidas técnicas y administrativas para eliminar o controlar riesgos.</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=445" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:07:25)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.3</span>
+                  <span class="subsection-title">Facultades y relación con la legislación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Base en la Ley 29.813, su reglamento y Decreto Supremo 005-2012-TR: Obligación de implementar comité en empresas según tamaño.</div>
+                  <div class="content-text">Funciones: investigar causas de incidentes/accidentes/enfermedades y emitir recomendaciones: Emisión de recomendaciones para evitar repetición.</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=867" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:14:27)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Objetivos del módulo y metodología docente</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Objetivos de aprendizaje</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Conocer etapas de investigación de incidentes y accidentes</div>
+                  <div class="content-text">Aprender metodologías de investigación (se verán cuatro)</div>
+                  <div class="content-text">Definir requisitos para medidas correctivas que eviten recurrencia</div>
+                  <div class="content-text">Conocer diagrama de flujo para investigar enfermedades ocupacionales y las principales enfermedades</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=713" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:11:53)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Metodología de clase</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Uso de videos y análisis participativo de accidentes reales o simulados</div>
+                  <div class="content-text">Visualización de múltiples películas de accidentes y discusión grupal</div>
+                  <div class="content-text">Aplicación práctica de técnicas de investigación sobre casos mostrados</div>
+                  <div class="content-text">Lluvia de ideas, participación del grupo y simulación de reconstrucción</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=2113" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:35:13)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Marco legal y registros</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Legislación relevante</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ley de Seguridad y Salud en el Trabajo (Ley 29.813) y su reglamento</div>
+                  <div class="content-text">Modificaciones y referencias a normas previas (mención de OSHA 18001 y su sustitución por ISO 45001)</div>
+                  <div class="content-text">Reglamento de seguridad y salud ocupacional en minería</div>
+                  <div class="content-text">Enfoque específico para entornos mineros</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=764" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:12:44)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Registros y formatos obligatorios</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Uso de formatos referenciales y Registro Único de Información de Accidentes (RUIA) por Ministerio de Trabajo</div>
+                  <div class="content-text">Registro obligatorio de incidentes y accidentes vía internet</div>
+                  <div class="content-text">Importancia de planillas y documentación estandarizada para investigación y reporte</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=828" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:13:48)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Definiciones clave</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Accidentes y tipos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Accidente de trabajo: suceso repentino con ocasión del trabajo que produce lesión, invalidez o muerte</div>
+                  <div class="content-text">Incluye sucesos ocurridos dentro del centro de trabajo; en minería el sistema minero se considera centro de trabajo</div>
+                  <div class="content-text">Accidentes leves: lesión que genera descanso breve (retorno al día siguiente o máximo pocos días)</div>
+                  <div class="content-text">Accidentes incapacitantes: lesiones que causan incapacidad (fracturas, etc.)</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=920" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:15:20)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Incidente y accidente peligroso</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Incidente: suceso en relación con el trabajo sin lesiones corporales</div>
+                  <div class="content-text">Incidente peligroso: suceso potencialmente riesgoso que podría causar lesiones o enfermedades profesionales en trabajadores o población</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=1464" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:24:24)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Causas de accidentes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Tipos de causas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Falta de control organizacional: necesidad de supervisión y comités cuando hay más de 20 trabajadores</div>
+                  <div class="content-text">Causas básicas: factores personales y factores de trabajo</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=1145" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:19:05)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Factores personales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Limitaciones de experiencia, fobias, tensiones y distracciones personales</div>
+                  <div class="content-text">Ejemplo: distracción por asuntos familiares en festividades puede aumentar riesgo</div>
+                  <div class="content-text">Capacitación y estado psicológico influyen en probabilidad de accidente</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=1221" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:20:21)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.3</span>
+                  <span class="subsection-title">Factores de trabajo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Condiciones y ambiente laboral: métodos, ritmos, turnos, maquinaria, equipos, materiales, mantenimiento, procedimientos y comunicación</div>
+                  <div class="content-text">Clima laboral positivo reduce riesgos; ambiente tenso aumenta propensión a accidentes</div>
+                  <div class="content-text">Distinción entre trabajadores manuales e intelectuales y necesidad de igualdad en trato</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=1304" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:21:44)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.4</span>
+                  <span class="subsection-title">Causas inmediatas: actos y condiciones subestándar</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Condición subestándar: ambiente o equipos por debajo de estándares (p. ej. ISO 45001)</div>
+                  <div class="content-text">Acto subestándar: acción del trabajador que incumple normas (no usar arnés, guantes) y puede provocar accidente</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=1424" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:23:44)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Manejo del accidente: fases y acciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Acciones inmediatas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Comunicación verbal y escrita al jefe, departamento y autoridades internas/externas</div>
+                  <div class="content-text">Importancia de categorizar correctamente como accidente de trabajo para beneficios del trabajador</div>
+                  <div class="content-text">Activación del plan de emergencias y atención al lesionado</div>
+                  <div class="content-text">Primeros auxilios y control de la escena; evitar que personal no capacitado actúe de forma contraproducente</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=1616" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:26:56)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Acciones post-accidente</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Preservar escena, recolección de información y pruebas (fotografías, videos)</div>
+                  <div class="content-text">Registro de bitácora, declaraciones de testigos y lesionado, test de drogas y alcohol</div>
+                  <div class="content-text">Levantamiento de croquis, planos y recolección documental (capacitaciones, permisos, procedimientos, estadísticas)</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=1780" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:29:40)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.3</span>
+                  <span class="subsection-title">Reconstrucción y entrevistas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Reconstrucción y simulación del evento con registro fotográfico y de video</div>
+                  <div class="content-text">Realización de entrevistas a involucrados y selección del comité de investigación según legislación</div>
+                  <div class="content-text">Integrantes típicos: jefe de seguridad y salud, técnico/ingeniero en seguridad, jefe del área afectada y representante del comité</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=2003" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:33:23)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.4</span>
+                  <span class="subsection-title">Investigación y reporte final</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Identificación de causas, generación de medidas correctivas y elaboración de informe</div>
+                  <div class="content-text">Archivo documental y comunicación de resultados</div>
+                  <div class="content-text">Seguimiento: implementación y evaluación de eficacia de medidas correctivas</div>
+                  <div class="content-text">Medidas específicas, medibles, alcanzables, orientadas a resultados y limitadas en el tiempo</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=2068" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:34:28)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Metodologías de investigación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Métodos presentados</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Método de los cinco porqués: Técnica interrogativa que consiste en preguntar repetidamente "¿por qué?" hasta alcanzar la causa raíz. Procedimiento: convocar equipo (miembro del comité, jefe de área, técnico SST y otros), definir el problema, preguntar y analizar causas fundamentales. Objetivo: encontrar la causa raíz para evitar repetición del evento.</div>
+                  <div class="content-text">Árbol de causas / Diagrama Ishikawa: Construcción en ramas y hojas que identifica causas inmediatas y subyacentes, permite definir acciones correctivas. Beneficios: precisión en identificación de problemas, prevención futura y fomento de mejora continua.</div>
+                  <div class="content-text">ICAM / Modelo basado en el queso suizo: Analiza factores humanos y organizacionales, condiciones de tarea, defensas ausentes y fallas latentes/activas. Pasos: acciones inmediatas, planificación, recopilación de datos, análisis de causas, definición de acciones correctivas y reporte de hallazgos.</div>
+                  <div class="content-text">Diagrama causa-efecto / "pescado de Chicago": Clasifica causas en categorías (personal, métodos, maquinaria, medio ambiente, materiales, medición) para visualizar relaciones y proponer soluciones.</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=3061" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:51:01)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Aplicación práctica sobre videos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Uso de los accidentes mostrados (montacargas, almacén, electrocuciones, minería) para aplicar métodos: Análisis guiado de EPP, capacitación, supervisión, condiciones del equipo, velocidad de montacargas y desviaciones de procedimiento.</div>
+                  <div class="content-text">Ejemplos prácticos desarrollados en clase: Caso de electrocutados durante manipulación de andamio: aplicación de cinco porqués para identificar falta de EPP, ausencia de supervisión y desconocimiento del riesgo. Uso del árbol de causas para contacto eléctrico: instalación provisional, persona no competente, falta de mantenimiento y ausencia de revisiones periódicas. ICAM/DICAM para montacargas: identificar factores organizacionales, presiones temporales, defensas ausentes y errores humanos por prisa y exceso de velocidad.</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=3085" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:51:25)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Análisis de casos visualizados</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Accidentes con montacargas en almacén</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Tipos de fallos observados: sobrecarga, velocidad excesiva, mala manipulación de palés: Consecuencias: vuelco de carga, atropellos y caída de materiales.</div>
+                  <div class="content-text">Elementos a investigar en cada caso: Peso de la carga, capacitación del operario, uso de equipos adecuados, señalización, mantenimiento y procedimientos; presencia de desniveles que provocan pérdida de control.</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=2248" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:37:28)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Accidente por caída de cajas en almacén</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Caso mostrado: trabajador atropellado por cajas caídas al manipular sin ayudas: Factores evidentes: ausencia de guantes, falta de uso de montacargas o gradas, posible prisa del trabajador.</div>
+                  <div class="content-text">Acciones post-accidente relevantes: preservación de escena, recolección de pruebas y entrevistas</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=1650" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:27:30)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.3</span>
+                  <span class="subsection-title">Electrocución y falta de protección</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Vídeo muestra electrocución de dos trabajadores por cable sin protección: Falta de EPP y medidas de aislamiento como causas inmediatas.</div>
+                  <div class="content-text">Importancia de procedimientos para trabajo en tensión y verificación de permisos: Uso del árbol de causas para identificar protección defectuosa, resistencia de tierra incorrecta y ausencia de mantenimientos periódicos.</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=3391" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:56:31)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.4</span>
+                  <span class="subsection-title">Accidentes en minería y capacitación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Clips de interior de mina y capacitaciones en minería pequeña: Contexto minero como centro de trabajo ampliado: condiciones específicas y riesgos propios.</div>
+                  <div class="content-text">Relevancia de formación específica y servicios médicos en faena</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=2679" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:44:39)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.5</span>
+                  <span class="subsection-title">Otros incidentes mostrados</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Prensas hidráulicas, lubricación sin protección ocular y cargadores frontales que impactan a trabajadores: Factores comunes: distracción, falta de protección, ausencia de señalización y control de acceso.</div>
+                  <div class="content-text">Observaciones sobre comportamiento ante emergencias: falta de respuesta adecuada y desconocimiento de primeros auxilios</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=6386" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:46:26)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Medidas correctivas y prevención</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Definición e implementación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Medidas correctivas derivadas de investigación para eliminar o controlar causas</div>
+                  <div class="content-text">Pueden ser técnicas, administrativas o formativas</div>
+                  <div class="content-text">Seguimiento de implementación y evaluación de eficacia</div>
+                  <div class="content-text">Verificar que la medida evita la recurrencia y ajustar si es necesario</div>
+                  <div class="content-text">Medidas deben ser específicas, medibles, alcanzables, orientadas al resultado y limitadas en el tiempo</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=2101" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:35:01)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Ejemplos de medidas concretas observadas en casos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Mejorar señalización y uso obligatorio de EPP (cascos, guantes, arneses)</div>
+                  <div class="content-text">Implementar equipos adecuados para manipulación de cargas (montacargas, gradas) y control de cargas según capacidad</div>
+                  <div class="content-text">Refuerzo de capacitación y actualización de instructores; certificación para trabajos en alturas y responsables de supervisión</div>
+                  <div class="content-text">Políticas de tolerancia cero para drogas y alcohol y realización de pruebas cuando corresponda</div>
+                  <div class="content-text">Definir permisos y listas de chequeo previas a trabajos en altura; señalizar y delimitar área de trabajo; asignar activante de seguridad para controlar accesos</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=1908" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:31:48)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Trabajo en alturas: riesgos y control</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Definición y alcance</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Trabajo en alturas: actividad que expone a riesgo de caída mayor a 2 metros respecto al plano horizontal inferior más cercano</div>
+                  <div class="content-text">Involucra suspensión o desplazamiento que puede tener consecuencias mortales</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=4336" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:12:16)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Requisitos y controles previos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Identificar si la actividad implica trabajo en alturas y si se realiza simultáneamente con otros riesgos (espacios confinados, líneas eléctricas, izaje)</div>
+                  <div class="content-text">Definir sistema de acceso apropiado y verificar equipos (andamios, escaleras, plataformas)</div>
+                  <div class="content-text">Asegurar condiciones de salud, capacitación, entrenamiento y certificación del personal</div>
+                  <div class="content-text">Líderes y administradores deben estar formados en prevención contra caídas y en procedimientos de autorrescate</div>
+                  <div class="content-text">Inspeccionar EPP y elementos de protección; señalizar y demarcar áreas; prever protección contra caída de objetos y herramientas</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=4405" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:13:25)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Investigación de enfermedades ocupacionales: fundamentos, evaluación y control de riesgos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Definición y características</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Enfermedades ocupacionales: alteraciones de la salud producidas por exposición a factores de riesgo en el trabajo</div>
+                  <div class="content-text">Pueden manifestarse de forma aguda o crónica y ser causadas por agentes químicos, biológicos, radiación o factores físicos y psicosociales</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=6824" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:53:44)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Factores de riesgo y ejemplos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Agentes químicos y biológicos: ácidos, óxidos, radiaciones ionizantes (ej.: radiólogos expuestos a rayos X)</div>
+                  <div class="content-text">Factores físicos: vibración, ruido, levantamiento manual, trabajo sedentario</div>
+                  <div class="content-text">Factores psicosociales y organizacionales: turnos rotativos, estrés, presiones temporales que afectan la probabilidad de error y la salud</div>
+                  <div class="content-text">Características: muchas enfermedades ocupacionales pueden ser irreversibles y progresivas aun tras cesar la exposición</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=6901" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:55:01)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.3</span>
+                  <span class="subsection-title">Prevención y control</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Higiene personal: lavado de manos y orden/limpieza del puesto</div>
+                  <div class="content-text">Uso adecuado de EPP según actividad; inspección y mantenimiento de equipos</div>
+                  <div class="content-text">Señalización clara y control de accesos para advertir peligros</div>
+                  <div class="content-text">Implementación de programas de salud ocupacional, vigilancia, permisos y listas de chequeo antes de trabajos peligrosos</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=7167" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:59:27)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Normativa, ergonomía y salud ocupacional en pymes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Normas y elementos esenciales en centros de trabajo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Iluminación adecuada, señalización de zonas (prohibido pasar, zona resbalosa) y extintores en lugares visibles: Salidas de emergencia señalizadas y conocimiento de localizaciones por el personal.</div>
+                  <div class="content-text">Fuentes de agua potable y cumplimiento de requisitos básicos de infraestructura: Vacunaciones y exámenes médicos de ingreso, periódicos y de salida según riesgo laboral.</div>
+                  <div class="content-text">Comunicación efectiva y liderazgo: Comunicación con cliente interno y externo; fomentar escucha y reporte de incidentes.</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=7200" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:00)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Ergonomía y ambiente de trabajo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ergonomía: adecuación del trabajo al hombre y del hombre al trabajo para optimizar bienestar y desempeño: Adaptación de máquinas, puestos y tareas a características fisiológicas, anatómicas y psicológicas del trabajador.</div>
+                  <div class="content-text">Riesgos de sedentarismo y malas posturas en teletrabajo o uso prolongado de dispositivos: Recomendaciones: distancia adecuada a pantallas, pausas, y pautas para quienes usan lentes.</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=7296" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:01:36)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.3</span>
+                  <span class="subsection-title">Salud ocupacional y administración en empresas pequeñas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Salud ocupacional como servicio multidisciplinario que previene enfermedades y accidentes mediante promoción y programas preventivos: Evaluación de capacidad física y mental antes de asignar labores; exámenes periódicos y programas de rehabilitación.</div>
+                  <div class="content-text">Implementación en microempresas: medidas prácticas y proporcionales: Espacios de trabajo seguros, capacitación mínima, jornadas flexibles, difusión de pautas y coordinación con Ministerio de Trabajo para formaciones gratuitas.</div>
+                  <div class="content-text">Responsabilidad tripartita y aplicación de la ley a microempresas: Ley de seguridad y salud en el trabajo aplica también a microempresas y pymes; el jefe suele asumir funciones cuando no hay comité.</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=7393" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:03:13)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="13">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">13</span>
+              <span class="section-title">Investigación, causalidad y medidas correctivas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.1</span>
+                  <span class="subsection-title">Identificación e investigación en entornos pequeños</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Proceso de identificación y evaluación de enfermedades laborales: observar, preguntar, medir y evaluar probabilidades y consecuencias: Analizar frecuencia de exposición, morbilidad en el grupo homogéneo y relación con la enfermedad.</div>
+                  <div class="content-text">Procedimiento cuando no hay médico ocupacional: Derivar trabajadores con síntomas a centros de salud pública o ESSALUD; involucrar al comité o al responsable designado y mantener confidencialidad autorizada por el trabajador.</div>
+                  <div class="content-text">Ejemplo: confección de buzos en espacios reducidos: Riesgos: polvo y pelusas de tela que pueden causar afecciones respiratorias y cutáneas. Medidas: ventilación, extracción localizada, uso de mascarillas certificadas o respiradores adecuados, y programas de higiene al terminar la jornada.</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=7643" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:07:23)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.2</span>
+                  <span class="subsection-title">Investigación clínica y determinación de causalidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Revisión de historia médica biopsicosocial, exámenes clínicos y paraclínicos, y evaluación de frecuencia de exposición: Confirmar si la enfermedad fue causada o agravada por el trabajo mediante diagnóstico estructurado.</div>
+                  <div class="content-text">Importancia de exámenes antes, durante y al final de la relación laboral para seguimiento: La investigación requiere pruebas objetivas; nada es solo visual.</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=8323" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:18:43)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.3</span>
+                  <span class="subsection-title">Medidas correctivas específicas para enfermedades</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Medidas correctivas deben ser SMART (específicas, medibles, alcanzables, orientadas a resultados y temporales): Aplicación a enfermedades ocupacionales: eliminación o control de la exposición, sustitución de materiales, mejora de ventilación y provisión de EPP adecuados.</div>
+                  <div class="content-text">Acciones para contagios en espacios pequeños: Aislar al trabajador enfermo, permitir trabajo remoto o descanso hasta recuperación, incentivar vacunaciones y medidas de higiene para evitar brotes.</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=8118" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:15:18)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="14">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">14</span>
+              <span class="section-title">Cierre y recapitulación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.1</span>
+                  <span class="subsection-title">Síntesis final</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Revisión de variedad de accidentes observados y su utilidad para la etapa de investigación: Enlace entre visualización, análisis metodológico (cinco porqués, árbol de causas, ICAM, Ishikawa) y generación de medidas preventivas.</div>
+                  <div class="content-text">Invitación a continuar con la investigación aplicada en sesiones siguientes: Referencia a seguir viendo más accidentes y aplicar las metodologías aprendidas.</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=3537" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:58:57)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.2</span>
+                  <span class="subsection-title">Despedida y preguntas finales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Recomendación de consultas posteriores y disposición del instructor para aclarar dudas</div>
+                  <div class="content-text">Indicaciones finales sobre asistencia, agradecimientos y cierre de clase</div>
+                  <div class="content-text">Recordatorio de aplicar lo aprendido en contextos reales y de remitir trabajadores con síntomas a servicios de salud públicos cuando la empresa carece de médico ocupacional</div>
+                  <a href="https://www.youtube.com/watch?v=068F_Qq2UjQ&start=8622" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:23:42)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "SEGURIDAD INDUSTRIAL".toUpperCase();
+      const TITULO_CLASE = "CLASE 13: INVESTIGACIÓN DE ACCIDENTES, INCIDENTES Y ENFERMEDADES OCUPACIONALES".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

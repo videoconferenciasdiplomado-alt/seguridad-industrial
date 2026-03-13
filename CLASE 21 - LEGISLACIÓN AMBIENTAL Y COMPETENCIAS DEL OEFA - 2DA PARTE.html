@@ -1,0 +1,1725 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Evaluación de Impacto Ambiental: conceptos generales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Bienvenida y contexto del módulo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Saludos iniciales y organización de la clase: Se indica que se espera la integración de alumnos y se inicia la sesión.</div>
+                  <div class="content-text">Ubicación temática del módulo dentro del curso: Módulo: legislación ambiental con enfoque en evaluación de impacto y fiscalización.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=40" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:00:40)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Definiciones y objetivos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Evaluación de Impacto Ambiental (EIA) como mecanismo para ejecutar la política ambiental: Basada en la Ley General del Ambiente (Ley 28.611) y su reglamentación.</div>
+                  <div class="content-text">Dos momentos: ex-ante (certificación antes de ejecutar) y ex-post (supervisión, fiscalización o auditoría): Ex-ante: normas y certificaciones que habilitan ejecución del proyecto. Ex-post: supervisión, fiscalización, auditoría y aplicación de mandatos o sanciones.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=282" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:04:42)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.3</span>
+                  <span class="subsection-title">Contenido del estudio de impacto y niveles</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Estudio situacional: línea de base y pronóstico de impactos: Información primaria y secundaria para caracterizar componentes biológicos, sociales y físicos.</div>
+                  <div class="content-text">Niveles de detalle en instrumentos preventivos y criterios de exigibilidad: Declaración de Impacto Ambiental (DIA) para impactos leves. Estudio Ambiental Semi-Detallado (EIA-SD) para impactos moderados. Estudio Ambiental Detallado (EIA-D) para impactos significativos o en zonas sensibles. Criterios: protección de salud pública, calidad ambiental (aire, agua, suelo), ruidos, vibraciones, residuos, áreas naturales protegidas, diversidad biológica, derechos y estilos de vida de comunidades campesinas, nativas e indígenas, patrimonio arqueológico y urbano.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=430" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:07:10)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Instrumentos de gestión ambiental y tipologías</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Instrumentos preventivos y clasificación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Instrumentos aplicables antes del inicio del proyecto: Ficha técnica ambiental (excluida en este módulo), DIA, EIA-SD, EIA-D.</div>
+                  <div class="content-text">Procedimiento Único de Certificación Ambiental (PUCPA/PUCPAS): SENACE determina tipo de evaluación cuando no está definido por sector. Decreto Supremo 013-2024 regula aspectos recientes (vigencia 2025).</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=591" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:09:51)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Instrumentos de control y fiscalización</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Acciones de supervisión, fiscalización y sanción: A cargo de OEFA (nivel nacional) y entidades de fiscalización ambiental (EFAs) subnacionales. Gobiernos regionales, municipales y sectores pueden fiscalizar según competencia.</div>
+                  <div class="content-text">Importancia de cooperación y línea normativa común: OEFA como órgano rector fija lineamientos que EFAs deben aplicar en su planificación.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=660" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:11:00)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.3</span>
+                  <span class="subsection-title">Instrumentos referenciales, restauradores e informativos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Instrumentos referenciales: normas que fijan límites y referencias: Ejemplo: límites máximos permisibles para efluentes (Decreto Supremo 010-2010-MINAM).</div>
+                  <div class="content-text">Instrumentos restauradores: planes de cierre de minas y garantías financieras: Requieren depósitos, cartas fianza o instrumentos equivalentes.</div>
+                  <div class="content-text">Instrumentos de información: sistemas oficiales como CINIA del MINAM: Compendian datos de aire, agua, suelo, residuos y estadísticas para apoyo en evaluación y fiscalización.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=726" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:12:06)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.4</span>
+                  <span class="subsection-title">Instrumentos financieros, sociales y voluntarios</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Instrumentos financieros: garantías para cierre y obligaciones económicas: Evaluación de costo de cierre por sectores (MINEM / MEF).</div>
+                  <div class="content-text">Participación ciudadana como instrumento social: Requisito legal según Ley 28.611; plan de participación recoge demandas locales y ayuda a prevenir conflictos.</div>
+                  <div class="content-text">Instrumentos voluntarios: certificaciones ISO (14001, 45001): No fiscalizables por OEFA pero útiles para estandarización y auditorías internas.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=904" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:15:04)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Aplicación en minería: especificidades y obligaciones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Instrumentos en exploración, explotación y unidades antiguas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Uso de instrumentos según etapa y umbrales: Exploración: predominio de DIA; explotación y beneficio: EIA-D. Umbrales por número de plataformas: ficha técnica hasta 20, DIA hasta 40, EIA-SD o EIA-D por encima.</div>
+                  <div class="content-text">Instrumentos correctivos para unidades pre-1993 y abandonadas: Programas de Adecuación y Manejo Ambiental (PAMA), planes de cierre pasivo y responsabilidades de Actores como Activo Minero SAC.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=1364" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:22:44)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Regulaciones técnicas y límites permisibles</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Límites máximos permisibles (LMP) y estándares de calidad ambiental (ECA): Decreto Supremo 010-2010-MINAM y normas sectoriales para descargas y emisiones.</div>
+                  <div class="content-text">Monitoreo y puntos de muestreo: Establecimiento de puntos en barlovento/sotavento y obligación de seguimiento operativo.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=1427" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:23:47)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.3</span>
+                  <span class="subsection-title">Titularidad, responsabilidad y transferencia de obligaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Titular del proyecto y transferencia de obligaciones en compraventas: El comprador hereda activos y pasivos ambientales; mandatos administrativos y obligaciones siguen vigentes.</div>
+                  <div class="content-text">Imposibilidad de evadir obligaciones mediante reestructuración societaria: Autoridades pueden exigir cumplimiento a cesionarios y sucesores.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=1930" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:32:10)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.4</span>
+                  <span class="subsection-title">Fiscalización: alcance y principio precautorio</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Prioridad del cumplimiento de la ley por encima del instrumento de gestión ambiental: OEFA puede fiscalizar y exigir cumplimiento de normas legales no contempladas en el instrumento.</div>
+                  <div class="content-text">Aplicación del principio precautorio ante indicios de daño: Fiscalizador puede requerir medidas, modificaciones o medidas administrativas preventivas si impactos observados son mayores.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=2212" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:36:52)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Procedimiento del Sistema de Evaluación de Impacto Ambiental (SENACE/CIA)</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Etapas principales en la elaboración y evaluación del EIA</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Solicitud y aprobación de Términos de Referencia (TDR) y plan de participación ciudadana: TDRs sectoriales o voluntarios por el titular; plazos administrativos aplicables.</div>
+                  <div class="content-text">Etapas de elaboración: línea de base, evaluación de impactos, mitigación y plan de manejo ambiental: Plan de manejo integrado con medidas preventivas, mitigadoras, correctivas y de compensación.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=2580" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:43:00)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Clasificación anticipada y criterios de categorización</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Clasificación según magnitud y probabilidad de impactos: Categoría I: impactos mínimos; Categoría II: impactos moderados (EIA-SD); Categoría III: impactos significativos o en zonas sensibles (EIA-D).</div>
+                  <div class="content-text">Principio de indivisibilidad y factibilidad: Prohibición de dividir proyectos para eludir evaluación completa; evaluación en etapa de factibilidad técnica y ambiental.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=1733" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:28:53)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.3</span>
+                  <span class="subsection-title">Certificación ambiental y presunción de veracidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Certificación ambiental como resolución de la autoridad competente: SENACE para EIA-D; sectores, gobiernos regionales o locales según competencia normativa.</div>
+                  <div class="content-text">Presunción de veracidad de la información presentada: Autoridad parte de la presunción; fiscalización posterior puede detectar inconsistencias y llevar a revocación o sanciones.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=3327" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:55:27)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Gestión social, cumplimiento normativo y consecuencias operativas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Participación ciudadana y gestión social</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Plan de participación ciudadana desde el inicio del proceso: Recoge opiniones, demandas (empleo, contratación local) y evalúa aceptación social e idiosincrasia local.</div>
+                  <div class="content-text">Importancia para la paz social y viabilidad del proyecto: Buena gestión social reduce conflictos y facilita operación continua.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=2787" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:46:27)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Cumplimiento normativo integral y registros</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Obligaciones del titular: prevención, control, mitigación, rehabilitación y compensación: Incluye emisiones, vertimientos, residuos, ruido y demás parámetros.</div>
+                  <div class="content-text">Registro, monitoreo y comunicación a autoridades: Notificación de inicio o modificación de estudios a SENACE/OEFA y conservación de registros para fiscalización.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=2441" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:40:41)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.3</span>
+                  <span class="subsection-title">Limitaciones de la certificación y trámites adicionales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Certificación ambiental no exonera de otros permisos urbanos o de construcción: Requiere zonificación, licencia de construcción y autorización de funcionamiento municipal.</div>
+                  <div class="content-text">Riesgos de información falsa o incompleta en el estudio: Falsedad puede conducir a pérdida de certificación y sanciones administrativas; la intención dolosa puede derivar en responsabilidad penal.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=3563" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:59:23)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Competencias y funcionamiento del OEFA</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Naturaleza, visión y alcance institucional</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">OEFA como Organismo de Evaluación y Fiscalización Ambiental creado en 2008: Decreto legislativo 1013; organismo técnico especializado con personería jurídica y pliego presupuestal propio adscrito al MINAM.</div>
+                  <div class="content-text">Visión y misión institucional: Garantizar equilibrio entre actividades económicas y el derecho a vivir en un ambiente sano; promover fiscalización ambiental efectiva y desarrollo sostenible.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=3610" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:00:10)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Estructura, funciones y órganos de línea</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Estructura orgánica y órganos de línea: Consejo directivo, dirección de evaluación, dirección de supervisión, dirección de fiscalización y sanción, y áreas de apoyo (TI, administración).</div>
+                  <div class="content-text">Funciones principales: normativa, evaluación, supervisión, fiscalización, sanción e incentivos: Función normativa: emisión de directivas, modelos y lineamientos para EFAs. Función evaluadora: vigilancia, monitoreo y determinación de causalidad con evidencia técnica-científica. Función supervisora: inspecciones de campo y revisión documental. Función fiscalizadora y sancionadora: procedimientos administrativos, multas, decomisos, paralizaciones y clausuras. Función de incentivos: certificación o reconocimiento por cumplimiento reiterado.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=4251" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:10:51)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.3</span>
+                  <span class="subsection-title">Ámbito de supervisión directa y sectores</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Sectores con supervisión directa por OEFA: Minería (mediana y gran minería), hidrocarburos, electricidad, industria manufacturera, pesca industrial y acuícola, saneamiento y educación en la medida delegada.</div>
+                  <div class="content-text">Tipos de supervisión: Supervisión de campo (in situ) y supervisión documental (revisión digital de documentos); ambas se combinan según recursos y riesgos.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=6568" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:49:28)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Obligaciones fiscalizables, EFAs y coordinación interinstitucional</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Definición de obligación ambiental y fuentes fiscalizables</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Obligación ambiental como vínculo jurídico entre el sujeto de cumplimiento y el Estado: Sujetos: personas naturales o jurídicas; Estado ejerce coerción administrativa para asegurar cumplimiento.</div>
+                  <div class="content-text">Fuentes de obligaciones fiscalizables: Regulaciones sectoriales (ej. Decreto Supremo 040-2014-EM en minería) y normas transversales (ej. Ley de Gestión Integral de Residuos Sólidos).</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=4537" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:15:37)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">IGA, mandatos y medidas impuestas por la autoridad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Obligaciones derivadas de Instrumentos de Gestión Ambiental aprobados (IGA) y planes de manejo: Compromisos técnicos para mitigar impactos y cumplir ECA/LMP.</div>
+                  <div class="content-text">Mandatos y medidas administrativas de fiscalización: Órdenes de hacer/no hacer, paralizaciones, derivación a tratamiento, cierre temporal o medidas de mitigación técnica; posibilidad de eximencia si la empresa corrige oportunamente.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=4709" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:18:29)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.3</span>
+                  <span class="subsection-title">EFAs, independencia funcional y supervisión a EFAs</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Entidades de Fiscalización Ambiental (EFAs): ministerios sectoriales, gobiernos regionales y municipalidades: EFAs aplican normas de OEFA con independencia funcional.</div>
+                  <div class="content-text">Supervisión de OEFA sobre EFAs: OEFA verifica que EFAs cumplan su Plan EFA; incumplimientos reiterados son reportados a la Contraloría por omisión de funciones.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=5779" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:36:19)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Fiscalización, sanciones y ámbitos de responsabilidad</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Tipos de sanciones y naturaleza administrativa</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Sanciones administrativas previstas en la Ley General del Ambiente (art. 136.2): Multas, decomisos, paralizaciones, suspensión o cancelación de permisos, clausuras parciales o temporales y amonestaciones.</div>
+                  <div class="content-text">Carácter administrativo y transición al ámbito penal: La acción penal requiere dolo o intención; faltas sin dolo se tramitan administrativamente, conductas con intención deliberada pueden devenir en delito.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=5195" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:26:35)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Procedimiento de supervisión, actas y determinación de causalidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Acta de supervisión y posibles derivaciones: Dirección de supervisión emite acta; si hay incumplimiento grave se remite a la dirección de fiscalización y sanción.</div>
+                  <div class="content-text">Determinación de causalidad para sanciones justas: Evaluación técnica-científica para atribuir responsabilidad por exceder ECAs; sin causalidad probada la sanción puede ser improcedente.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=6692" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:51:32)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.3</span>
+                  <span class="subsection-title">Recomendaciones operativas ante supervisiones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Responder siempre a las visitas de OEFA y no impedir el acceso: Negar acceso acarrea sanción por obstrucción y visitas repetidas posteriores.</div>
+                  <div class="content-text">Organización interna y roles para atender inspecciones: Guardias, suplencia técnica y capacitación para que siempre haya personal capacitado que responda; planificación preventiva en lugar de reacción.</div>
+                  <div class="content-text">Proactividad en gestión ambiental: Supervisar resultados operativos (plantas de tratamiento, efluentes) y mantener controles para cumplir LMP/ECA antes de la visita.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=4040" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:07:20)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Gestión práctica de supervisiones y planificación EFA</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Planificación racional de supervisiones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Importancia de planes EFA realistas y alineados con recursos: EFAs deben planificar metas alcanzables según capacidad técnica, presupuesto y personal.</div>
+                  <div class="content-text">Riesgo de sobredimensionar metas: Planes poco realistas exponen a reportes de incumplimiento y procesos por omisión de funciones ante la Contraloría.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=7042" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:57:22)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Inspecciones preventivas y enfoque de OEFA</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Carácter preventivo de las inspecciones inopinadas: OEFA busca prevenir daño ambiental; la meta no es multar por multar sino asegurar cumplimiento y mitigar impactos.</div>
+                  <div class="content-text">Actuación empresarial proactiva: Mantener balances de relaves, monitoreo continuo y resolver no conformidades antes de la visita para posibilitar atenuación o eximencia en sanciones.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=6879" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:54:39)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.3</span>
+                  <span class="subsection-title">Gestión documental y uso de medios digitales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Preferencia por documentación digital y plataformas de información: OEFA solicita documentos en formato digital cuando es posible para eficiencia y sostenibilidad.</div>
+                  <div class="content-text">Supervisión combinada: Revisión documental complementa inspecciones de campo; la elección responde a riesgos, recursos y objetivos de la fiscalización.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=6646" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:50:46)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.4</span>
+                  <span class="subsection-title">Realismo en metas y consecuencias administrativas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Importancia de planificar según presupuesto y capacidades reales: Declarar metas alcanzables evita omisión de funciones y procesos sancionadores ante la Contraloría.</div>
+                  <div class="content-text">Justificaciones excepcionales y tolerancia limitada: Faltas puntuales pueden explicarse por violencia, acceso denegado o fallas técnicas; cumplimiento porcentual alto (ej. 95%) es distinto a realizar solo el 20% de las metas.</div>
+                  <div class="content-text">OEFA como supervisor del cumplimiento del plan EFA: OEFA exige envío del plan EFA y compara metas con ejecuciones; desvíos significativos derivan en informes a la Contraloría.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=7210" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:00:10)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Conclusiones operativas y buenas prácticas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Acciones recomendadas para titulares y profesionales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Mantener instrumentos y compromisos actualizados y accesibles: Conservación de registros, cumplimiento del plan de manejo y respuesta inmediata a mandatos.</div>
+                  <div class="content-text">Capacitación continua y simulacros de fiscalización: Formación de personal responsable y prácticas internas para atender inspecciones inopinadas.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=6976" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:56:16)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Gestión de contingencias y principios de mitigación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Priorizar medidas de mitigación técnica sobre clausuras cuando sean viables: Presentar soluciones de ingeniería que demuestren mitigación efectiva para evitar paralizaciones totales.</div>
+                  <div class="content-text">Documentar acciones correctivas para posibilitar eximencias o atenuantes en sanciones: Correcciones oportunas y evidencia técnica reducen riesgo sancionador y minimizan impacto operativo.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=6709" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:51:49)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Procedimiento administrativo sancionador y recursos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Inicio y desarrollo del PAS</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Investigación de presuntas infracciones y medidas derivadas: Dirección de supervisión detecta incumplimientos y la dirección de fiscalización inicia el procedimiento administrativo sancionador (PAS).</div>
+                  <div class="content-text">Distinción entre medidas correctivas e infracción instalada: Exceso de parámetros en efluentes constituye infracción efectiva; medidas posteriores no eliminan el hecho consumado.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=7564" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:06:04)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Garantías procesales, instancias y agotamiento de la vía administrativa</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Derecho de defensa y plazos en el PAS: El administrado tiene derecho a presentar pruebas, alegar errores de forma y solicitar reconsideración en primera instancia.</div>
+                  <div class="content-text">Segunda instancia, Tribunal de Fiscalización Ambiental y agotamiento de la vía administrativa: En apelación se revisan principalmente cuestiones de interpretación y derecho; la resolución de segunda instancia agota la vía administrativa y habilita vía judicial.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=7744" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:09:04)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.3</span>
+                  <span class="subsection-title">Pruebas técnicas y cadena de custodia</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Importancia de muestreos, laboratorio certificado y cadena de custodia: Evidencia técnica sólida es clave para la defensa administrativa y judicial; defectos en la cadena de custodia pueden invalidar pruebas.</div>
+                  <div class="content-text">Posibles vicios formales y efectos procesales: Incumplimiento de plazos o errores formales pueden retrotraer el procedimiento o anular actuaciones, mejorando la posición del administrado.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=8042" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:14:02)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.4</span>
+                  <span class="subsection-title">Recurso judicial y resultados posibles</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Acceso al Poder Judicial tras agotar la vía administrativa: El juez puede confirmar, anular o modificar sanciones impuestas administrativamente.</div>
+                  <div class="content-text">Relevancia práctica para autoridades y empresas: Buen muestreo y cumplimiento procesal reducen riesgo judicial; empresas deben asegurar documentación técnica y cumplimiento de plazos.</div>
+                  <a href="https://www.youtube.com/watch?v=zywV4LEXvM0&start=8154" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:15:54)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "SEGURIDAD INDUSTRIAL".toUpperCase();
+      const TITULO_CLASE = "CLASE 21: LEGISLACIÓN AMBIENTAL Y COMPETENCIAS DEL OEFA - 2DA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

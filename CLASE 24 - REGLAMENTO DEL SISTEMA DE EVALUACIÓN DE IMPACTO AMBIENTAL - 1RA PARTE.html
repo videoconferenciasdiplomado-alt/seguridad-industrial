@@ -1,0 +1,1379 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Proceso y clasificación preliminar del sistema de evaluación de impacto ambiental</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Inicio de la clase y objetivos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Profesores y alumnos se conectan; se presenta la estructura de la sesión: Breve saludo y aviso de espera mientras ingresan estudiantes. Objetivo: revisar CEIA, reglamentos y etapas de evaluación ambiental.</div>
+                  <div class="content-text">Contexto del curso y enfoque en sistema de evaluación del impacto ambiental: Enfoque en proyectos de inversión, nivel de factibilidad con planos y balances, no en empresas ya en operación. Mención de normativa: Decreto 019-2009-MINAM, actualizaciones y Decreto Supremo 013-2024 (procedimiento único de certificación ambiental). Expectativa de que sectores elaboren normas y TDR específicos para ampliar inventario de industrias y reducir clasificaciones ad hoc por SENACE.</div>
+                  <a href="https://www.youtube.com/watch?v=1jhCSAY-Kfo&start=36" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:00:36)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Etapas principales: clasificación, elaboración, evaluación y aprobación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Clasificación: determinar si es DIA, EIA-D, EIA-SD según complejidad: Se utiliza anexo (Anexo 2) para proyectos tipificados; para proyectos no tipificados se realiza evaluación preliminar y SENACE participa en clasificación cuando hay duda. Espíritu del nuevo régimen: sectores norman categorías 1 y 2; categoría 3 queda para SENACE (proyectos complejos). Los ministerios deben emitir Decretos Supremos para incorporar industrias menos conocidas y justificar su pertenencia sectorial.</div>
+                  <div class="content-text">Elaboración: responsabilidad del titular a través de consultora autorizada: El estudio se elabora a nivel de factibilidad: dimensiones, flujos, balances, procesos definidos (no planta piloto). Contenido típico: línea base, impactos potenciales, manejo de residuos, plan de manejo ambiental y participación ciudadana. SENACE puede acompañar levantamientos de línea base para mejorar calidad y reducir observaciones.</div>
+                  <div class="content-text">Evaluación y aprobación: órgano competente (SENACE, sectorial o local) revisa y aprueba: Proceso administrativo con admisibilidad técnica/formal (archivos PDF, KMZ, voucher de pago), evaluación técnica, opiniones vinculantes y plazos definidos (ej. 40 días SD, 70 días D). Aprobación emite resolución de certificación ambiental que resume antecedentes, descripción breve del proyecto, opiniones técnicas, participación ciudadana, impactos y medidas de manejo y obligaciones fiscalizables. Mecanismo de plazos y oportunidades para subsanar fallas evita rechazos automáticos y reduce apelaciones improcedentes.</div>
+                  <div class="content-text">Seguimiento, control y actualización: roles de OEFA y consultoras (cada 5 años): OEFA fiscaliza obligaciones ambientales fiscalizables; existen fiscalizadores regionales y sectoriales. Actualización rutinaria cada cinco años; modificaciones si el titular realiza cambios en proyecto. Implementación futura de plataformas integradas (IntegraAmbiente) para gestión única aún pendiente.</div>
+                  <a href="https://www.youtube.com/watch?v=1jhCSAY-Kfo&start=175" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:02:55)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.3</span>
+                  <span class="subsection-title">Procedimiento de clasificación y posibles caminos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Evaluación preliminar para proyectos no contemplados en anexos: Titular/consultora presenta evaluación ambiental preliminar describiendo impactos; resultado puede dar 3 caminos: A1 (DIA), A2 (EIA-SD), A3 (EIA-D). La clasificación debe considerar variabilidad estacional: cubrir ambos periodos (secas y lluvias) para evitar observaciones por falta de datos.</div>
+                  <div class="content-text">Ruta A1 — Declaración de Impacto Ambiental (DIA): Si impactos son leves y manejo adecuado, la evaluación preliminar se convierte en DIA y se aprueba.</div>
+                  <div class="content-text">Ruta A2 — Estudio de Impacto Ambiental Semidetallado (EIA-SD): Autoridad solicita TDR propuestos por el titular; una vez aprobados se elabora el estudio en base a TDR.</div>
+                  <div class="content-text">Ruta A3 — Estudio de Impacto Ambiental Detallado (EIA-D): Para impactos relevantes se exige EIA detallado con especialistas; estudios complejos requieren muestreos en estaciones seca y lluviosa y pueden tardar hasta un año. SENACE asume rol decisor cuando los sectores no han normado la clasificación; objetivo del DS 013-2024 es que los sectores tengan inventarios y TDR para agilizar clasificaciones.</div>
+                  <a href="https://www.youtube.com/watch?v=1jhCSAY-Kfo&start=562" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:09:22)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Términos de referencia, clasificación de proyectos y aplicación práctica</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Contenido mínimo y diferencias entre categorías</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">TDR y anexos según categoría: anexo 6 para DIA, anexo 3 para semidetallado, contenidos más extensos para detallado: Elementos comunes: resumen ejecutivo, descripción, línea de base integral, impactos, plan de manejo y participación ciudadana. Estudios detallados incluyen alternativas de proyecto, plan de compensación y valoración económica del impacto.</div>
+                  <div class="content-text">Ejemplos aplicados y consideraciones de diseño: Agroindustria de jugo de mango puede entrar en DIA o EIA-SD según TDR existentes. Planta de carbón activado u otras actividades poco conocidas suelen requerir evaluación preliminar y posible EIA-SD o EIA-D por incertidumbre de impactos. El diseño de infraestructura debe proyectar caudales máximos estacionales para evitar desbordes en los peores escenarios climáticos.</div>
+                  <div class="content-text">Digitalización y plazos: Presentación virtual de documentos (PDF, KMZ); requisitos formales en admisibilidad y pago de tasas. Decreto Supremo 013-2024 regula proceso único y busca predictibilidad, transparencia y construcción de capacidades.</div>
+                  <a href="https://www.youtube.com/watch?v=1jhCSAY-Kfo&start=847" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:14:07)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Criterios protectores y su aplicación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Protección de la salud pública y salud ocupacional: Incluye impacto sobre la población en área de influencia y sobre trabajadores; ejemplo de material particulado requiere EPP y mitigación.</div>
+                  <div class="content-text">Protección de la calidad ambiental: aire, agua, suelo, ruidos y residuos: Requiere límites máximos permisibles para vertimientos y control de emisiones (PM10, PM2.5); medidas: plantas de tratamiento, pulverizadores, tecnologías menos emisoras.</div>
+                  <div class="content-text">Protección de recursos naturales, áreas protegidas y biodiversidad: Opiniones técnicas vinculantes de ANA y SERNANP/CENAM; proyectos en áreas protegidas requieren medidas específicas.</div>
+                  <div class="content-text">Protección de modos de vida de comunidades campesinas, nativas e indígenas: Salvaguardas contra cambios culturales y normativas restrictivas sobre relaciones sociales y adquisiciones.</div>
+                  <div class="content-text">Protección del patrimonio cultural y urbano: Necesidad de certificado de inexistencia de restos arqueológicos cuando aplique.</div>
+                  <a href="https://www.youtube.com/watch?v=1jhCSAY-Kfo&start=1990" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:33:10)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Competencias institucionales, actores y elaboración de estudios</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Competencias, actores y ejemplos de conflicto en clasificación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Competencia normativa: MINAM (viceministerio y DGP) emite decretos y lineamientos: SENACE centraliza la evaluación técnica y OEFA la fiscalización; regiones asumirán progresivamente la clasificación de actividades comunes. Sectores deben sustentar mediante Decreto Supremo la inclusión de actividades en categorías definidas para evitar incertidumbre.</div>
+                  <div class="content-text">Actores técnicos con opinión vinculante: Opiniones de ANA, SERNANP y Cultura son determinantes y pueden definir el resultado de la evaluación ambiental.</div>
+                  <div class="content-text">Ejemplo práctico de clasificación ambigua: La falta de normas en casos como nanomateriales obliga a decisiones ad hoc; el DS 013-2024 busca transferir estas reglas a los sectores.</div>
+                  <a href="https://www.youtube.com/watch?v=1jhCSAY-Kfo&start=2325" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:38:45)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Requisitos, composición y tiempos de estudio</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Consultoras autorizadas: registro, multidisciplinariedad y posibilidad nacional o extranjera: Equipos multidisciplinarios firman el estudio junto al titular, cumpliendo estrictamente con los especialistas exigidos en los TDR.</div>
+                  <div class="content-text">Contenidos y metodologías de la elaboración: El estudio requiere línea de base, balances, diseño de plantas, modelación de dispersión y planes para eventos extremos. Es vital cubrir ambas estaciones climáticas en las mediciones de calidad para evitar observaciones por falta de datos. SENACE puede acompañar el levantamiento de línea de base para asegurar la calidad de información y acelerar la evaluación.</div>
+                  <div class="content-text">Duración y consideraciones prácticas: Estudios complejos (SD o D) tardan un año por muestreos estacionales; la admisibilidad y los TDR son requisitos previos obligatorios.</div>
+                  <div class="content-text">Relación con fiscalización y cumplimiento legal: OEFA fiscaliza el cumplimiento ambiental y puede imponer medidas adicionales si se omitieron impactos, bajo el principio precautorio.</div>
+                  <a href="https://www.youtube.com/watch?v=1jhCSAY-Kfo&start=3216" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:53:36)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Proceso de evaluación detallado, plazos y resolución</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Admisibilidad, evaluación, observaciones y plazos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Admisibilidad formal y técnica: Verificación de archivos (PDF, DWG, KMZ), comprobante de pago y formatos correctos; falta de alguno implica no admisible y devolución al titular. En caso de fallas, el procedimiento administrativo concede plazos predeterminados para subsanar en vez de rechazar de plano.</div>
+                  <div class="content-text">Evaluación técnica y solicitudes de ampliación: Tras admisibilidad se inicia evaluación con plazos legales (ej. 40 días SD, 70 días D) y posibilidad de que el titular solicite ampliaciones que no cuentan dentro del plazo administrativo del órgano evaluador.</div>
+                  <div class="content-text">Observaciones y levantamiento de información: Observaciones pueden ser de forma (errores o inconsistencias) o de fondo (tratamiento de efluentes, residuos); titular responde dentro de plazo y puede pedir ampliación; ausencia de respuestas lleva a denegación o nuevas solicitudes.</div>
+                  <a href="https://www.youtube.com/watch?v=1jhCSAY-Kfo&start=3602" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:00:02)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Contenido de la resolución de certificación ambiental y obligaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Elementos que contiene la resolución: Antecedentes, descripción breve del proyecto, resumen de opiniones técnicas, resumen del proceso de participación ciudadana, impactos ambientales significativos, medidas de manejo y obligaciones.</div>
+                  <div class="content-text">Obligaciones ambientales fiscalizables: Medidas de manejo aprobadas se vuelven obligaciones fiscalizables por OEFA; además se deben cumplir las normas estatales aplicables aunque no estén explícitas en el estudio.</div>
+                  <a href="https://www.youtube.com/watch?v=1jhCSAY-Kfo&start=4804" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:20:04)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Participación ciudadana, acceso a la información y beneficios del CIA</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Participación ciudadana y acceso a la información</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Participación ciudadana obligatoria en etapas del proceso: Reuniones informativas, audiencias públicas, avisos y talleres; participación formal y no formal según la etapa. El Plan de Participación Ciudadana (PPC) debe garantizar mecanismos accesibles para recibir aportes (presenciales, casillas físicas, casillas electrónicas) considerando limitaciones de acceso a internet. SENACE actúa como testigo: registra, grava y valida compromisos ofrecidos por el titular durante la participación. Ofrecimientos documentados en el PPC se integran al instrumento de gestión ambiental y son fiscalizables; incumplimientos pueden derivar en sanciones administrativas severas.</div>
+                  <div class="content-text">Derecho de acceso a la información pública: Ley 27806 y principios de transparencia permiten solicitar documentos públicos sin expresar causa; estudios de impacto ambiental son accesibles mediante solicitudes de transparencia.</div>
+                  <a href="https://www.youtube.com/watch?v=1jhCSAY-Kfo&start=5306" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:28:26)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Beneficios del CIA y responsabilidad social</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">CIA como sistema preventivo y promotor de mejora continua: Prevención de impactos, evaluación permanente del desempeño y reducción de costos a largo plazo al integrar medidas desde la factibilidad.</div>
+                  <div class="content-text">Reducción de conflictos socioambientales y promoción del desarrollo local: Participación y beneficios compartidos reducen riesgo de conflictos; ejemplos de responsabilidad social empresarial como electrificación con paneles solares para desarrollo sostenido. En audiencias, las ofertas de empleo y contratación deben ser realistas y verificables; consultores juegan rol clave en adecuar ofertas a la capacidad del proyecto.</div>
+                  <div class="content-text">Minimización de pasivos ambientales: Evitar remediaciones costosas o que el Estado asuma responsabilidades por abandono; ejemplos de pasivos con altos costos de remediación.</div>
+                  <a href="https://www.youtube.com/watch?v=1jhCSAY-Kfo&start=5358" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:29:18)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Principios administrativos, roles de SENACE y OEFA y novedades normativas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Principios del proceso y estructura de SENACE</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Principios: preclusión, cumplimiento de condiciones, plazos y predictibilidad: Preclusión: cada etapa cierra y determina el marco normativo aplicable; cumplimiento de plazos de respuesta y ampliaciones del titular no interrumpen plazos administrativos del evaluador. Procedimiento administrativo se articula con participación técnica y social, y admite recursos administrativos y judiciales según la ley general del procedimiento administrativo.</div>
+                  <div class="content-text">Estructura y funciones de SENACE: Órgano técnico especializado con Direcciones: DEAR (Proyectos de Recursos Naturales y Productivos), DEIN (Proyectos de Infraestructura) y Dirección General Estratégica en Evaluación Ambiental para gestión y supervisión. DEAR evalúa proyectos productivos complejos (minería, agro, industria), DEIN evalúa infraestructura (carreteras, puertos, aeropuertos, líneas de transmisión).</div>
+                  <a href="https://www.youtube.com/watch?v=1jhCSAY-Kfo&start=6224" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:43:44)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">OEFA y fiscalización</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Funciones de OEFA: Fiscaliza, supervisa, sanciona y vigila cumplimiento de obligaciones ambientales; actúa con redes regionales (CEFAS) y puede imponer medidas adicionales basadas en criterios técnicos y de salud.</div>
+                  <div class="content-text">Coordinación sectorial y gradualidad normativa: Nueva norma busca que los sectores normen categorías 1 y 2 para reducir necesidad de clasificación por SENACE; entrada en vigencia y aplicación gradual del Decreto Supremo 013-2024 con efecto de predictibilidad para expedientes presentados desde su vigencia.</div>
+                  <a href="https://www.youtube.com/watch?v=1jhCSAY-Kfo&start=5200" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:26:40)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Actualización, modificaciones y conclusiones prácticas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Actualización vs modificación y seguimiento</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Actualización periódica (cada 5 años): Revisión rutinaria para reflejar cambios en línea de base y contexto social; distinta a la modificación que es por cambios operativos del titular. Actualización por defecto cada cinco años, y también cuando el titular planifica cambios operativos que requieren modificación del instrumento.</div>
+                  <div class="content-text">Seguimiento y control: OEFA y fiscalizadores sectoriales/ regionales supervisan el cumplimiento del plan de manejo y obligaciones; plan de manejo aprobado es ejecutable y sujeto a fiscalización.</div>
+                  <a href="https://www.youtube.com/watch?v=1jhCSAY-Kfo&start=5143" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:25:43)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Consejos prácticos para titulares y consultoras</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Preparación adecuada del EIA: Cubrir ambos periodos estacionales en muestreos, basarse en TDR aprobados, proyectar con máximos de diseño (peor escenario) y evitar presión por apresurar presentaciones para no recibir observaciones. Planificar la participación ciudadana ofreciendo compromisos realizables y documentables; diseñar mecanismos accesibles de recepción de aportes.</div>
+                  <div class="content-text">Relación con la normativa vigente: Utilizar la versión vigente y sus modificatorias de normas sectoriales; conocer ley del procedimiento administrativo y requisitos legales (ISO 14000 referencia para requisitos legales).</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Recursos normativos y anexos relevantes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Anexos, flujogramas y herramientas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Anexo 2: listado principal de proyectos de inversión del CIA: Recomendada revisión por parte de consultores y titulares para identificar tipificación aplicable. Reconocimiento de vacíos en el inventario que originan necesidad de evaluación preliminar.</div>
+                  <div class="content-text">Anexos 3 y 4: TDR básicos para semidetallado y detallado: Contienen requisitos técnicos mínimos y guías para diseño de estudios.</div>
+                  <div class="content-text">Anexo 6 y EVAPS: contenido mínimo para DIA y evaluación preliminar: Define información esencial para que una EVAPS pueda dar lugar a una DIA.</div>
+                  <div class="content-text">Flujograma del proceso de certificación ambiental: Visualiza etapas de presentación, clasificación, evaluación, resolución y seguimiento, conforme a la modificación introducida por Decreto Legislativo 178.</div>
+                  <a href="https://www.youtube.com/watch?v=1jhCSAY-Kfo&start=7973" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:12:53)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Conclusión de la sesión y tareas pendientes</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Se deja pendiente ver un caso práctico y revisar fragmentos del Decreto Supremo 013-2024 en la siguiente clase: Recomendación: descargar y revisar el Anexo 2 y los TDR correspondientes para comprender inventario y exigencias sectoriales.</div>
+                  <div class="content-text">Agradecimientos y cierre de la sesión: Invitación a preparar dudas y casos prácticos para la próxima clase.</div>
+                  <a href="https://www.youtube.com/watch?v=1jhCSAY-Kfo&start=8059" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:14:19)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "SEGURIDAD INDUSTRIAL".toUpperCase();
+      const TITULO_CLASE = "CLASE 24: REGLAMENTO DEL SISTEMA DE EVALUACIÓN DE IMPACTO AMBIENTAL - 1RA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>
